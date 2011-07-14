@@ -16,6 +16,10 @@ import net.sacredlabyrinth.Phaed.Core.managers.PlugManager;
 import net.sacredlabyrinth.Phaed.Core.managers.ItemManager;
 import net.sacredlabyrinth.Phaed.Core.managers.ItemManager.StackHolder;
 
+import com.nilla.vanishnopickup.VanishNoPickup;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+
 /**
  * Core for Bukkit
  * 
@@ -28,6 +32,9 @@ public class Core extends JavaPlugin
     public CommandManager cm;
     public PlugManager plm;
     public ItemManager im;
+
+    //Nilla added this
+    public VanishNoPickup vanishPlugin;
     
     public static Logger log;
     
@@ -40,6 +47,7 @@ public class Core extends JavaPlugin
 	plm = new PlugManager(this);
 	im = new ItemManager();
 	log = Logger.getLogger("Minecraft");
+        setupVanish();
 	
 	log.info("[" + this.getDescription().getName() + "] version [" + this.getDescription().getVersion() + "] loaded");
     }
@@ -48,6 +56,20 @@ public class Core extends JavaPlugin
     public void onDisable()
     {
 	
+    }
+    private void setupVanish(){
+        PluginDescriptionFile pdfFile = this.getDescription();
+        Plugin this_plugin = this.getServer().getPluginManager().getPlugin("VanishNoPickup");
+
+        if(vanishPlugin == null) {
+            if(this_plugin != null) {
+                vanishPlugin = ((VanishNoPickup)this_plugin);
+                log.info("[" + this.getDescription().getName() + "] has VanishNoPickup Plugin support");
+            }else{
+                log.info("[" + this.getDescription().getName() + "] Failed to find VanishNoPickup Plugin");
+            } 
+        }
+
     }
     
     @Override

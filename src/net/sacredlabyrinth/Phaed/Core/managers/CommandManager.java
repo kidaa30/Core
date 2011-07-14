@@ -1,5 +1,6 @@
 package net.sacredlabyrinth.Phaed.Core.managers;
 
+import com.avaje.ebeaninternal.api.BindParams.OrderedList;
 import net.sacredlabyrinth.Phaed.Core.Helper;
 import net.sacredlabyrinth.Phaed.Core.Core;
 import net.sacredlabyrinth.Phaed.Core.ChatBlock;
@@ -52,9 +53,27 @@ public class CommandManager extends PlayerListener
 	player.sendMessage(ChatColor.LIGHT_PURPLE + "It is now " + time);
 	return true;
     }
-    
+    public static String getOnlyNumerics(String str) {
+
+        if (str == null) {
+            return null;
+        }
+
+        StringBuilder strBuff = new StringBuilder();
+        char c;
+
+        for (int i = 0; i < str.length() ; i++) {
+            c = str.charAt(i);
+
+            if (Character.isDigit(c)) {
+                strBuff.append(c);
+            }
+        }
+        return strBuff.toString();
+    }
     public void who(CommandSender sender, String world)
     {
+        int iPlayerCount = plugin.getServer().getOnlinePlayers().length;
 	HashMap<String, HashSet<Player>> groups = new HashMap<String, HashSet<Player>>();
 	String playerList = "";
 
@@ -63,9 +82,42 @@ public class CommandManager extends PlayerListener
 	Player[] online = plugin.getServer().getOnlinePlayers();
 	
 	for (int i = 0; i < online.length; i++)
-	{	    
+        {
 	    String group = plugin.pm.permissions.getGroup(world, online[i].getName());
-	    
+            
+            String rank = plugin.pm.permissions.getGroupPermissionString(world, group, "rank");
+            Core.log.info("[INFO] (world:" + world + " group:" + group + " Rank:" + rank);
+            //String rank = plugin.pm.permissions.getInfoString(world, group, "rank",);
+            //Core.log.info("[INFO] (world:" + world + " group:" + group + " Rank:" + rank);
+            if(plugin.vanishPlugin != null){
+                String sVanishVersion = plugin.getDescription().getVersion();
+                String sVersionParts[] = sVanishVersion.split("\\.");
+                boolean bVersionOkay = false;
+                //Only supported in version >= 1.9.10
+                if(sVersionParts.length > 2){
+                    int aInt = Integer.parseInt(getOnlyNumerics(sVersionParts[0]));
+                    int bInt = Integer.parseInt(getOnlyNumerics(sVersionParts[1]));
+                    int cInt = Integer.parseInt(getOnlyNumerics(sVersionParts[2]));
+                    if(aInt >= 2){
+                        bVersionOkay = true;
+                    }
+                    else if((aInt >= 1) && (bInt > 9)){
+                        bVersionOkay = true;
+                    }
+                    else if((aInt >= 1) && (bInt >= 9) && (cInt > 9)){
+                        bVersionOkay = true;
+                    }
+                        
+                }
+             
+                if(bVersionOkay){
+                    if((plugin.vanishPlugin.isPlayerInvisible(online[i].getName())) && plugin.vanishPlugin.hidesPlayerFromOnlineList(online[i])){
+                        iPlayerCount -= 1;
+                        continue;
+                    }
+                }
+            }
+            
 	    if (groups.containsKey(group))
 	    {
 		groups.get(group).add(online[i]);
@@ -84,8 +136,8 @@ public class CommandManager extends PlayerListener
 	{
 	    for (Player pl : groups.get(g))
 	    {
-		String prefix = plugin.pm.permissions.getGroupPrefix(world, g).replace("&", "§");
-		String suffix = plugin.pm.permissions.getGroupSuffix(world, g).replace("&", "§");
+		String prefix = plugin.pm.permissions.getGroupPrefix(world, g).replace("&", "?");
+		String suffix = plugin.pm.permissions.getGroupSuffix(world, g).replace("&", "?");
 		
 		playerList += ChatColor.DARK_GRAY + ", " + prefix + pl.getName() + suffix;
 	    }
@@ -100,7 +152,7 @@ public class CommandManager extends PlayerListener
 	    playerList = playerList.substring(4);
 	}
 	
-	ChatBlock.sendMessage(sender, ChatColor.WHITE + "Who's online " + ChatColor.GRAY + "(" + plugin.getServer().getOnlinePlayers().length + "/" + plugin.getServer().getMaxPlayers() + "): " + playerList);
+	ChatBlock.sendMessage(sender, ChatColor.WHITE + "Who's online " + ChatColor.GRAY + "(" + iPlayerCount + "/" + plugin.getServer().getMaxPlayers() + "): " + playerList);
     }
     
     public boolean msg(Player player, String to, String msg)

@@ -383,7 +383,7 @@ public class ChatBlock
     
     public static String cleanColors(String str)
     {
-	String patternStr = "§.";
+	String patternStr = "ï¿½.";
 	String replacementStr = "";
 	
 	Pattern pattern = Pattern.compile(patternStr);
