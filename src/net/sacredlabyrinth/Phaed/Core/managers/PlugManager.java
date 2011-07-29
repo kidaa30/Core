@@ -9,14 +9,14 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 public class PlugManager
-{    
+{
     private Core plugin;
-    
+
     public PlugManager(Core plugin)
     {
 	this.plugin = plugin;
     }
-    
+
     public void listPlugins(CommandSender player)
     {
 	StringBuilder plugins = new StringBuilder();
@@ -25,16 +25,16 @@ public class PlugManager
 	    plugins.append(p.isEnabled() ? " " + ChatColor.GREEN : " " + ChatColor.RED);
 	    plugins.append(p.getDescription().getName());
 	}
-	
+
 	plugins.insert(0, ChatColor.YELLOW + "Plugins:" + ChatColor.WHITE);
 	player.sendMessage(plugins.toString());
     }
-    
+
     public boolean reloadPlugin(String name, CommandSender player)
     {
 	return disablePlugin(name, player) && enablePlugin(name, player);
     }
-    
+
     public boolean loadPlugin(String name, CommandSender sender)
     {
 	try
@@ -50,20 +50,20 @@ public class PlugManager
 	    return false;
 	}
     }
-    
+
     public boolean enablePlugin(String name, CommandSender sender)
     {
 	try
 	{
 	    final PluginManager pm = plugin.getServer().getPluginManager();
 	    final Plugin plugin = pm.getPlugin(name);
-	    
+
 	    if(plugin == null)
 	    {
 		sender.sendMessage(ChatColor.RED + "Plugin not found.");
 		return false;
 	    }
-	    
+
 	    if (!plugin.isEnabled())
 		new Thread(new Runnable()
 		{
@@ -84,20 +84,20 @@ public class PlugManager
 	    return false;
 	}
     }
-    
+
     public boolean disablePlugin(String name, CommandSender sender)
     {
 	try
 	{
 	    final PluginManager pm = plugin.getServer().getPluginManager();
 	    final Plugin plugin = pm.getPlugin(name);
-	    
+
 	    if(plugin == null)
 	    {
 		sender.sendMessage(ChatColor.RED + "Plugin not found.");
 		return false;
 	    }
-	    
+
 	    if (plugin.isEnabled())
 		new Thread(new Runnable()
 		{
