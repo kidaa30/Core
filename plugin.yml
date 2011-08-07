@@ -38,3 +38,6 @@ commands:
   plugin:
     description: 
     usage:    
+  coords:
+    description:
+    usage:
