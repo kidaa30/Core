@@ -1,14 +1,17 @@
 package net.sacredlabyrinth.Phaed.Core;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.nilla.vanishnopickup.VanishNoPickup;
+import net.sacredlabyrinth.Phaed.Core.listeners.CPlayerListener;
 
 import net.sacredlabyrinth.Phaed.Core.managers.SettingsManager;
 import net.sacredlabyrinth.Phaed.Core.managers.PermissionsManager;
@@ -17,6 +20,8 @@ import net.sacredlabyrinth.Phaed.Core.managers.PlugManager;
 import net.sacredlabyrinth.Phaed.Core.managers.ItemManager;
 import net.sacredlabyrinth.Phaed.Core.managers.ItemManager.StackHolder;
 import org.bukkit.block.Block;
+import org.bukkit.event.Event;
+import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 
@@ -27,6 +32,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
  */
 public class Core extends JavaPlugin
 {
+    private CPlayerListener playerListener;
     public SettingsManager settings;
     public PermissionsManager pm;
     public CommandManager cm;
@@ -42,6 +48,7 @@ public class Core extends JavaPlugin
     @Override
     public void onEnable()
     {
+        playerListener = new CPlayerListener(this);
         settings = new SettingsManager(this);
         pm = new PermissionsManager(this);
         cm = new CommandManager(this);
@@ -49,6 +56,8 @@ public class Core extends JavaPlugin
         im = new ItemManager();
         log = Logger.getLogger("Minecraft");
         setupVanish();
+
+        getServer().getPluginManager().registerEvent(Event.Type.PLAYER_PRELOGIN, playerListener, Priority.High, this);
 
         log.info("[" + this.getDescription().getName() + "] version [" + this.getDescription().getVersion() + "] loaded");
     }
@@ -85,7 +94,46 @@ public class Core extends JavaPlugin
             String[] split = args;
             String commandName = command.getName().toLowerCase();
 
-            if (commandName.equals("data"))
+            if (commandName.equals("lockdown"))
+            {
+                if (settings.lockDown)
+                {
+                    sender.sendMessage("Server is open");
+                    return true;
+                }
+
+                if (split.length == 0)
+                {
+                    sender.sendMessage(ChatColor.RED + "Usage: /lockdown [message]");
+                    return true;
+                }
+
+                if (!settings.lockDown)
+                {
+                    settings.lockDown = true;
+                    sender.sendMessage("Server is locked down");
+
+                    settings.lockDownMsg = Helper.toMessage(split);
+
+                    List<World> worlds = getServer().getWorlds();
+
+                    for (World world : worlds)
+                    {
+                        List<Player> players = world.getPlayers();
+
+                        for (Player p : players)
+                        {
+                            String group = pm.permissions.getGroup("world", p.getName());
+
+                            if (group.equals("Default"))
+                            {
+                                p.kickPlayer(settings.lockDownMsg);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (commandName.equals("data"))
             {
                 if (sender instanceof Player)
                 {
@@ -99,7 +147,7 @@ public class Core extends JavaPlugin
                         {
                             Block target = tb.getTargetBlock();
                             player.sendMessage(ChatColor.YELLOW + "Type: " + ChatColor.AQUA + target.getType() + ChatColor.YELLOW + " Data: " + ChatColor.AQUA + target.getData());
-                            Core.log.info("Type: " +  target.getType() +  " Data: " +  target.getData());
+                            Core.log.info("Type: " + target.getType() + " Data: " + target.getData());
                         }
                         else
                         {
