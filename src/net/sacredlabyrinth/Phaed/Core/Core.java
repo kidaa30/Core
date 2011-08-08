@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -378,6 +379,20 @@ public class Core extends JavaPlugin
 		}
 		
 		sender.sendMessage(ChatColor.RED + "Usage: /plugin [load|reload|enable|disable|list] [plugin]");
+	    }
+	    else if (commandName.equals("coords"))
+	    {
+	    	if(sender instanceof Player)
+			{
+				Player plr = (Player) sender;
+				Location plrloc = plr.getLocation();
+				plr.sendMessage(ChatColor.RED + "You are at X: " + plrloc.getBlockX() + " Y: " + plrloc.getBlockY() + " Z: " + plrloc.getBlockZ());
+			}
+	    	else
+	    	{
+	    		sender.sendMessage("Command requires a player");
+	    	}
+	    	return true;
 	    }
 	    return false;
 	}
