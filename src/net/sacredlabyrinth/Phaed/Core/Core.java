@@ -489,6 +489,22 @@ public class Core extends JavaPlugin
             }
             return false;
         }
+         else if (commandName.equals("coords"))
+                {
+                    if(sender instanceof Player)
+                    {
+                        Player plr = (Player) sender;
+                        Location plrloc = plr.getLocation();
+                        plr.sendMessage(ChatColor.AQUA + "You are at X: " + plrloc.getBlockX() + " Y: " + plrloc.getBlockY() + " Z: " + plrloc.getBlockZ());
+                    }
+                    else
+                    {
+                        sender.sendMessage("Command requires a player");
+                    }
+                    return true;
+                }
+                return false;       
+        }
         catch (Throwable ex)
         {
             ex.printStackTrace();
