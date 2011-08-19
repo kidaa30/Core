@@ -1,52 +1,62 @@
 name: Core
 main: net.sacredlabyrinth.Phaed.Core.Core
-version: 1.3
+version: 1.4
+softdepend: [PermissionsBukkit, VanishNoPacket, mChat]
 commands:
   lockdown:
     description:
-    usage:
   data:
     description:
-    usage:
-  time:
-    description:
-    usage:
   day:
     description:
-    usage:
   night:
     description:
-    usage:
   i:
     description:
-    usage:
   item:
     description:
-    usage:
   ims:
     description:
-    usage:
   items:
     description:
-    usage:
   give:
     description:
-    usage:
   who:
     description:
-    usage:
   list:
     description:
-    usage:
   clear:
     description:
-    usage:
   msg:
     description:
-    usage:
   m:
     description:
-    usage:
   plugin:
     description:
-    usage:
+  coords:
+    description:
+permissions:
+  core.lockdown:
+    description:
+  core.lockup:
+    description:
+  core.data:
+    description:
+  core.day:
+    description:
+  core.night:
+    description:
+  core.item:
+    description:
+  core.items:
+    description:
+  core.give:
+    description:
+  core.who:
+    description:
+  core.msg:
+    description:
+  core.clear:
+    description:
+  core.plugin:
+    description:

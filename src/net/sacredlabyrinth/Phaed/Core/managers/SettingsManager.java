@@ -7,6 +7,7 @@ public class SettingsManager
 {
     public boolean disableBypassAlertsForAdmins;
     public boolean lockDown;
+    public boolean lockUp;
     public String lockDownMsg = "Server is temporarily locked down.  Only members can enter";
 
     private Core plugin;

@@ -1,11 +1,14 @@
 package net.sacredlabyrinth.Phaed.Core.managers;
 
+import com.platymuus.bukkit.permissions.Group;
+import java.util.List;
 import net.sacredlabyrinth.Phaed.Core.Helper;
 import net.sacredlabyrinth.Phaed.Core.Core;
 import net.sacredlabyrinth.Phaed.Core.ChatBlock;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import net.D3GN.MiracleM4n.mChat.mChat;
 
 import org.bukkit.ChatColor;
 import org.bukkit.event.player.PlayerListener;
@@ -54,15 +57,13 @@ public class CommandManager extends PlayerListener
         {
             Player player = (Player) sender;
 
-            if (plugin.pm.hasPermission(player, "core.admin"))
+            if (player.hasPermission("core.admin"))
             {
                 isAdmin = true;
             }
         }
 
-        int playerCount = plugin.getServer().getOnlinePlayers().length;
         HashMap<String, HashSet<Player>> groups = new HashMap<String, HashSet<Player>>();
-        String playerList = "";
 
         // sort players into groups
 
@@ -70,45 +71,63 @@ public class CommandManager extends PlayerListener
 
         for (int i = 0; i < online.length; i++)
         {
-            String group = plugin.pm.permissions.getGroup(world, online[i].getName());
+            List<Group> gs = plugin.perms.getGroups(online[i].getName());
 
-            if (!isAdmin && plugin.vanishPlugin != null && plugin.vanishPlugin.isPlayerInvisible(online[i].getName()) && plugin.vanishPlugin.hidesPlayerFromOnlineList(online[i]))
+            if (!gs.isEmpty())
             {
-                playerCount--;
-            }
-            else if (groups.containsKey(group))
-            {
-                ((HashSet) groups.get(group)).add(online[i]);
-            }
-            else
-            {
-                HashSet players = new HashSet();
-                players.add(online[i]);
-                groups.put(group, players);
+                String group = gs.get(0).getName();
+
+                if (groups.containsKey(group))
+                {
+                    ((HashSet) groups.get(group)).add(online[i]);
+                }
+                else
+                {
+                    HashSet players = new HashSet();
+                    players.add(online[i]);
+                    groups.put(group, players);
+                }
             }
         }
 
-        // build the final list with the player's prefix and suffix
+        // sort players into groups
 
-        for (String g : groups.keySet())
+        String playerList = "";
+        int playerCount = 0;
+
+        String[] gs =
         {
-            for (Player pl : groups.get(g))
+            "Admins", "Girl/UMods", "VIP/UMods", "UMods", "Girl/SMods", "VIP/SMods", "SMods", "Girl/Mods", "VIP/Mods", "Mods", "Girl/Veterans", "VIP/Veterans", "Veterans", "Girl/Members", "VIP/Members", "Members", "default"
+        };
+
+        for (String g : gs)
+        {
+            HashSet<Player> set = groups.get(g);
+
+            if (set != null)
             {
-                String prefix = plugin.pm.permissions.getGroupPrefix(world, g).replace("&", "\u00a7");
-                String suffix = plugin.pm.permissions.getGroupSuffix(world, g).replace("&", "\u00a7");
-
-                if (plugin.vanishPlugin != null && plugin.vanishPlugin.isPlayerInvisible(pl.getName()) && plugin.vanishPlugin.hidesPlayerFromOnlineList(pl))
+                for (Player pl : set)
                 {
-                    prefix = ChatColor.WHITE + "(vanish)" + prefix;
-                }
+                    String prefix = plugin.mchat.API.getPrefix(pl).replace("&", "\u00a7");
+                    String suffix = plugin.mchat.API.getSuffix(pl).replace("&", "\u00a7");
 
-                playerList += ChatColor.DARK_GRAY + ", " + prefix + pl.getName() + suffix;
+                    if (plugin.vanishPlugin != null && plugin.vanishPlugin.getManager().isVanished(pl) && isAdmin)
+                    {
+                        prefix = ChatColor.WHITE + "(vanish)" + prefix;
+                    }
+                    else
+                    {
+                        playerCount++;
+                    }
+
+                    playerList += ChatColor.DARK_GRAY + ", " + prefix + pl.getName() + suffix;
+                }
             }
         }
 
         if (playerList.length() == 0)
         {
-            playerList = "empty";
+            playerList = "noone";
         }
         else
         {

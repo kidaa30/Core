@@ -1,8 +1,11 @@
 package net.sacredlabyrinth.Phaed.Core;
 
+import com.platymuus.bukkit.permissions.Group;
+import com.platymuus.bukkit.permissions.PermissionsPlugin;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import net.D3GN.MiracleM4n.mChat.mChat;
 
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -10,20 +13,19 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import com.nilla.vanishnopickup.VanishNoPickup;
 import net.sacredlabyrinth.Phaed.Core.listeners.CPlayerListener;
 
 import net.sacredlabyrinth.Phaed.Core.managers.SettingsManager;
-import net.sacredlabyrinth.Phaed.Core.managers.PermissionsManager;
 import net.sacredlabyrinth.Phaed.Core.managers.CommandManager;
 import net.sacredlabyrinth.Phaed.Core.managers.PlugManager;
 import net.sacredlabyrinth.Phaed.Core.managers.ItemManager;
 import net.sacredlabyrinth.Phaed.Core.managers.ItemManager.StackHolder;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
+import to.joe.vanish.VanishPlugin;
 
 /**
  * Core for Bukkit
@@ -34,12 +36,13 @@ public class Core extends JavaPlugin
 {
     private CPlayerListener playerListener;
     public SettingsManager settings;
-    public PermissionsManager pm;
     public CommandManager cm;
     public PlugManager plm;
     public ItemManager im;
     public static Logger log;
-    public VanishNoPickup vanishPlugin;
+    public VanishPlugin vanishPlugin;
+    public PermissionsPlugin perms;
+    public mChat mchat;
     public int[] throughFields = new int[]
     {
         0
@@ -50,12 +53,14 @@ public class Core extends JavaPlugin
     {
         playerListener = new CPlayerListener(this);
         settings = new SettingsManager(this);
-        pm = new PermissionsManager(this);
         cm = new CommandManager(this);
         plm = new PlugManager(this);
         im = new ItemManager();
         log = Logger.getLogger("Minecraft");
+
         setupVanish();
+        setupPermissionsBukkit();
+        setupMChat();
 
         getServer().getPluginManager().registerEvent(Event.Type.PLAYER_PRELOGIN, playerListener, Priority.High, this);
 
@@ -64,19 +69,51 @@ public class Core extends JavaPlugin
 
     private void setupVanish()
     {
-        PluginDescriptionFile pdfFile = getDescription();
         Plugin this_plugin = getServer().getPluginManager().getPlugin("VanishNoPickup");
 
         if (vanishPlugin == null)
         {
             if (this_plugin != null)
             {
-                vanishPlugin = ((VanishNoPickup) this_plugin);
-                log.info("[" + getDescription().getName() + "] has VanishNoPickup Plugin support");
+                vanishPlugin = ((VanishPlugin) this_plugin);
             }
             else
             {
-                log.info("[" + getDescription().getName() + "] Failed to find VanishNoPickup Plugin");
+                log.info("[" + getDescription().getName() + "] Failed to find VanishNoPacket");
+            }
+        }
+    }
+
+    private void setupPermissionsBukkit()
+    {
+        Plugin plug = getServer().getPluginManager().getPlugin("PermissionsBukkit");
+
+        if (perms == null)
+        {
+            if (plug != null)
+            {
+                perms = ((PermissionsPlugin) plug);
+            }
+            else
+            {
+                log.info("[" + getDescription().getName() + "] Failed to find PermissionsBukkit");
+            }
+        }
+    }
+
+    private void setupMChat()
+    {
+        Plugin plug = getServer().getPluginManager().getPlugin("mChat");
+
+        if (mchat == null)
+        {
+            if (plug != null)
+            {
+                mchat = ((mChat) plug);
+            }
+            else
+            {
+                log.info("[" + getDescription().getName() + "] Failed to find mChat");
             }
         }
     }
@@ -96,6 +133,16 @@ public class Core extends JavaPlugin
 
             if (commandName.equals("lockdown"))
             {
+                if (sender instanceof Player)
+                {
+                    Player player = (Player) sender;
+
+                    if (!player.hasPermission("core.lockdown"))
+                    {
+                        return false;
+                    }
+                }
+
                 if (settings.lockDown)
                 {
                     sender.sendMessage("Server is open");
@@ -104,7 +151,7 @@ public class Core extends JavaPlugin
 
                 if (split.length == 0)
                 {
-                    sender.sendMessage(ChatColor.RED + "Usage: /lockdown [message]");
+                    sender.sendMessage(ChatColor.RED + "Usage: /lockdown [message] (keep defaults out)");
                     return true;
                 }
 
@@ -123,11 +170,66 @@ public class Core extends JavaPlugin
 
                         for (Player p : players)
                         {
-                            String group = pm.permissions.getGroup("world", p.getName());
+                            List<Group> gs = perms.getGroups(p.getName());
 
-                            if (group.equals("Default"))
+                            if (gs.size() == 1)
                             {
-                                p.kickPlayer(settings.lockDownMsg);
+                                if (gs.get(0).getName().equalsIgnoreCase("default"))
+                                {
+                                    p.kickPlayer(settings.lockDownMsg);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (commandName.equals("lockup"))
+            {
+                if (sender instanceof Player)
+                {
+                    Player player = (Player) sender;
+
+                    if (!player.hasPermission("core.lockup"))
+                    {
+                        return false;
+                    }
+                }
+
+                if (settings.lockUp)
+                {
+                    sender.sendMessage("Server is open");
+                    return true;
+                }
+
+                if (split.length == 0)
+                {
+                    sender.sendMessage(ChatColor.RED + "Usage: /lockup [message]  (keep everyone but defaults out)");
+                    return true;
+                }
+
+                if (!settings.lockUp)
+                {
+                    settings.lockUp = true;
+                    sender.sendMessage("Server is locked up");
+
+                    settings.lockDownMsg = Helper.toMessage(split);
+
+                    List<World> worlds = getServer().getWorlds();
+
+                    for (World world : worlds)
+                    {
+                        List<Player> players = world.getPlayers();
+
+                        for (Player p : players)
+                        {
+                            List<Group> gs = perms.getGroups(p.getName());
+
+                            if (gs.size() == 1)
+                            {
+                                if (!gs.get(0).getName().equalsIgnoreCase("default"))
+                                {
+                                    p.kickPlayer(settings.lockDownMsg);
+                                }
                             }
                         }
                     }
@@ -139,7 +241,7 @@ public class Core extends JavaPlugin
                 {
                     Player player = (Player) sender;
 
-                    if (pm.hasPermission(player, "core.data"))
+                    if (player.hasPermission("core.data"))
                     {
                         TargetBlock tb = new TargetBlock(player, 1000, 0.2, throughFields);
 
@@ -162,30 +264,13 @@ public class Core extends JavaPlugin
                     sender.sendMessage("Command requires a player");
                 }
             }
-            if (commandName.equals("time"))
+            else if (commandName.equals("day"))
             {
                 if (sender instanceof Player)
                 {
                     Player player = (Player) sender;
 
-                    if (pm.hasPermission(player, "core.time"))
-                    {
-                        player.sendMessage(ChatColor.RED + "New time commands are /day and /night");
-                        return true;
-                    }
-                }
-                else
-                {
-                    sender.sendMessage("Command requires a player");
-                }
-            }
-            if (commandName.equals("day"))
-            {
-                if (sender instanceof Player)
-                {
-                    Player player = (Player) sender;
-
-                    if (pm.hasPermission(player, "core.time"))
+                    if (player.hasPermission("core.day"))
                     {
                         cm.day(player);
                         Core.log.info("[core] " + player.getName() + " changed time to day");
@@ -203,7 +288,7 @@ public class Core extends JavaPlugin
                 {
                     Player player = (Player) sender;
 
-                    if (pm.hasPermission(player, "core.time"))
+                    if (player.hasPermission("core.night"))
                     {
                         cm.night(player);
                         Core.log.info("[core] " + player.getName() + " changed time to night");
@@ -221,7 +306,7 @@ public class Core extends JavaPlugin
                 {
                     Player player = (Player) sender;
 
-                    if (pm.hasPermission(player, "core.item"))
+                    if (player.hasPermission("core.item"))
                     {
                         if (split.length > 0)
                         {
@@ -252,7 +337,7 @@ public class Core extends JavaPlugin
                 {
                     Player player = (Player) sender;
 
-                    if (pm.hasPermission(player, "core.items"))
+                    if (player.hasPermission("core.items"))
                     {
                         if (split.length > 0)
                         {
@@ -290,7 +375,7 @@ public class Core extends JavaPlugin
                 {
                     Player player = (Player) sender;
 
-                    if (pm.hasPermission(player, "core.give"))
+                    if (player.hasPermission("core.give"))
                     {
                         if (split.length > 1)
                         {
@@ -330,7 +415,7 @@ public class Core extends JavaPlugin
                 {
                     Player player = (Player) sender;
 
-                    if (pm.hasPermission(player, "core.who"))
+                    if (player.hasPermission("core.who"))
                     {
                         cm.who(player, player.getWorld().getName());
                     }
@@ -356,7 +441,7 @@ public class Core extends JavaPlugin
                 {
                     Player player = (Player) sender;
 
-                    if (pm.hasPermission(player, "core.msg"))
+                    if (player.hasPermission("core.msg"))
                     {
                         if (split.length > 1)
                         {
@@ -391,7 +476,7 @@ public class Core extends JavaPlugin
                 {
                     Player player = (Player) sender;
 
-                    if (pm.hasPermission(player, "core.msg"))
+                    if (player.hasPermission("core.msg"))
                     {
                         if (split.length > 0)
                         {
@@ -424,7 +509,7 @@ public class Core extends JavaPlugin
                 {
                     Player player = (Player) sender;
 
-                    if (pm.hasPermission(player, "core.clear"))
+                    if (player.hasPermission("core.clear"))
                     {
                         player.getInventory().clear();
                         ChatBlock.sendMessage(player, ChatColor.LIGHT_PURPLE + "Inventory cleared");
@@ -442,7 +527,7 @@ public class Core extends JavaPlugin
                 {
                     Player player = (Player) sender;
 
-                    if (!pm.hasPermission(player, "core.plugin"))
+                    if (!player.hasPermission("core.plugin"))
                     {
                         return false;
                     }
@@ -487,23 +572,31 @@ public class Core extends JavaPlugin
 
                 sender.sendMessage(ChatColor.RED + "Usage: /plugin [load|reload|enable|disable|list] [plugin]");
             }
-            return false;
-        }
-         else if (commandName.equals("coords"))
+            else if (commandName.equals("coords"))
+            {
+                if (sender instanceof Player)
                 {
-                    if(sender instanceof Player)
+                    Player player = (Player) sender;
+
+                    if (!player.hasPermission("core.coords"))
                     {
-                        Player plr = (Player) sender;
-                        Location plrloc = plr.getLocation();
-                        plr.sendMessage(ChatColor.AQUA + "You are at X: " + plrloc.getBlockX() + " Y: " + plrloc.getBlockY() + " Z: " + plrloc.getBlockZ());
+                        return false;
                     }
-                    else
-                    {
-                        sender.sendMessage("Command requires a player");
-                    }
-                    return true;
                 }
-                return false;       
+
+                if (sender instanceof Player)
+                {
+                    Player plr = (Player) sender;
+                    Location plrloc = plr.getLocation();
+                    plr.sendMessage(ChatColor.AQUA + "You are at X: " + plrloc.getBlockX() + " Y: " + plrloc.getBlockY() + " Z: " + plrloc.getBlockZ());
+                }
+                else
+                {
+                    sender.sendMessage("Command requires a player");
+                }
+                return true;
+            }
+            return false;
         }
         catch (Throwable ex)
         {

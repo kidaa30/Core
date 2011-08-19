@@ -1,5 +1,7 @@
 package net.sacredlabyrinth.Phaed.Core.listeners;
 
+import com.platymuus.bukkit.permissions.Group;
+import java.util.List;
 import net.sacredlabyrinth.Phaed.Core.Core;
 
 import org.bukkit.event.player.PlayerListener;
@@ -29,12 +31,32 @@ public class CPlayerListener extends PlayerListener
         if (plugin.settings.lockDown)
         {
             event.setKickMessage(plugin.settings.lockDownMsg);
-            String group = plugin.pm.permissions.getGroup("world", event.getName());
 
-            if (group.equals("Default"))
+            List<Group> gs = plugin.perms.getGroups(event.getName());
+
+            if (gs.size() == 1)
             {
-                event.disallow(PlayerPreLoginEvent.Result.KICK_OTHER, plugin.settings.lockDownMsg);
-                Core.log.info("Player " + event.getName() + " was locked out");
+                if (gs.get(0).getName().equalsIgnoreCase("default"))
+                {
+                    event.disallow(PlayerPreLoginEvent.Result.KICK_OTHER, plugin.settings.lockDownMsg);
+                    Core.log.info("Player " + event.getName() + " was locked out");
+                }
+            }
+        }
+
+        if (plugin.settings.lockUp)
+        {
+            event.setKickMessage(plugin.settings.lockDownMsg);
+
+            List<Group> gs = plugin.perms.getGroups(event.getName());
+
+            if (gs.size() == 1)
+            {
+                if (gs.get(0).getName().equalsIgnoreCase("default"))
+                {
+                    event.disallow(PlayerPreLoginEvent.Result.KICK_OTHER, plugin.settings.lockDownMsg);
+                    Core.log.info("Player " + event.getName() + " was locked out");
+                }
             }
         }
     }
