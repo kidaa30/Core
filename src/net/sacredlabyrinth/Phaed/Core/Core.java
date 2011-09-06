@@ -2,30 +2,32 @@ package net.sacredlabyrinth.Phaed.Core;
 
 import com.platymuus.bukkit.permissions.Group;
 import com.platymuus.bukkit.permissions.PermissionsPlugin;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
 import net.D3GN.MiracleM4n.mChat.mChat;
-
+import net.sacredlabyrinth.Phaed.Core.listeners.CPlayerListener;
+import net.sacredlabyrinth.Phaed.Core.managers.CommandManager;
+import net.sacredlabyrinth.Phaed.Core.managers.ItemManager;
+import net.sacredlabyrinth.Phaed.Core.managers.ItemManager.StackHolder;
+import net.sacredlabyrinth.Phaed.Core.managers.PlugManager;
+import net.sacredlabyrinth.Phaed.Core.managers.SettingsManager;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import net.sacredlabyrinth.Phaed.Core.listeners.CPlayerListener;
-
-import net.sacredlabyrinth.Phaed.Core.managers.SettingsManager;
-import net.sacredlabyrinth.Phaed.Core.managers.CommandManager;
-import net.sacredlabyrinth.Phaed.Core.managers.PlugManager;
-import net.sacredlabyrinth.Phaed.Core.managers.ItemManager;
-import net.sacredlabyrinth.Phaed.Core.managers.ItemManager.StackHolder;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 import to.joe.vanish.VanishPlugin;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Filter;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 /**
  * Core for Bukkit
@@ -43,12 +45,8 @@ public class Core extends JavaPlugin
     public VanishPlugin vanishPlugin;
     public PermissionsPlugin perms;
     public mChat mchat;
-    public int[] throughFields = new int[]
-    {
-        0
-    };
+    public int[] throughFields = new int[]{0};
 
-    @Override
     public void onEnable()
     {
         playerListener = new CPlayerListener(this);
@@ -63,6 +61,24 @@ public class Core extends JavaPlugin
         setupMChat();
 
         getServer().getPluginManager().registerEvent(Event.Type.PLAYER_PRELOGIN, playerListener, Priority.High, this);
+
+        log.setFilter(new Filter()
+        {
+            public boolean isLoggable(LogRecord record)
+            {
+                if (record.getMessage().contains("overloaded?"))
+                {
+                    return false;
+                }
+
+                if (record.getMessage().contains("Attempted to place a tile entity where there was no entity tile!"))
+                {
+                    return false;
+                }
+
+                return (record.getMessage() == null) || (record.getLevel() != Level.WARNING);
+            }
+        });
 
         log.info("[" + this.getDescription().getName() + "] version [" + this.getDescription().getVersion() + "] loaded");
     }
@@ -118,7 +134,6 @@ public class Core extends JavaPlugin
         }
     }
 
-    @Override
     public void onDisable()
     {
     }

@@ -1,19 +1,17 @@
 package net.sacredlabyrinth.Phaed.Core.managers;
 
 import com.platymuus.bukkit.permissions.Group;
-import java.util.List;
-import net.sacredlabyrinth.Phaed.Core.Helper;
-import net.sacredlabyrinth.Phaed.Core.Core;
 import net.sacredlabyrinth.Phaed.Core.ChatBlock;
+import net.sacredlabyrinth.Phaed.Core.Core;
+import net.sacredlabyrinth.Phaed.Core.Helper;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerListener;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import net.D3GN.MiracleM4n.mChat.mChat;
-
-import org.bukkit.ChatColor;
-import org.bukkit.event.player.PlayerListener;
-import org.bukkit.entity.Player;
-import org.bukkit.command.CommandSender;
+import java.util.List;
 
 public class CommandManager extends PlayerListener
 {
