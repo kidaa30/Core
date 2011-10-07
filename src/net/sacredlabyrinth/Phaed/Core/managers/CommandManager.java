@@ -6,6 +6,8 @@ import net.sacredlabyrinth.Phaed.Core.Core;
 import net.sacredlabyrinth.Phaed.Core.Helper;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerListener;
 
@@ -30,6 +32,12 @@ public class CommandManager extends PlayerListener
 
         newtime += 0;
 
+        if ((player.getWorld().hasStorm()) || (player.getWorld().isThundering()))
+        {
+            player.getWorld().setStorm(false);
+            player.getWorld().setThundering(false);
+        }
+
         player.getWorld().setTime(newtime);
         player.sendMessage(ChatColor.LIGHT_PURPLE + "It is now day");
         return true;
@@ -41,6 +49,12 @@ public class CommandManager extends PlayerListener
         long newtime = curtime - (curtime % 24000);
 
         newtime += 14000;
+
+        if ((player.getWorld().hasStorm()) || (player.getWorld().isThundering()))
+        {
+            player.getWorld().setStorm(false);
+            player.getWorld().setThundering(false);
+        }
 
         player.getWorld().setTime(newtime);
         player.sendMessage(ChatColor.LIGHT_PURPLE + "It is now night");
@@ -93,10 +107,7 @@ public class CommandManager extends PlayerListener
         String playerList = "";
         int playerCount = 0;
 
-        String[] gs =
-        {
-            "Admins", "Girl/UMods", "VIP/UMods", "UMods", "Girl/SMods", "VIP/SMods", "SMods", "Girl/Mods", "VIP/Mods", "Mods", "Girl/Veterans", "VIP/Veterans", "Veterans", "Girl/Members", "VIP/Members", "Members", "default"
-        };
+        String[] gs = {"Admins", "Girl/UMods", "VIP/UMods", "UMods", "Girl/SMods", "VIP/SMods", "SMods", "Girl/Mods", "VIP/Mods", "Mods", "Girl/TenuredVeterans", "VIP/TenuredVeterans", "TenuredVeterans", "Girl/Veterans", "VIP/Veterans", "Veterans", "Girl/Members", "VIP/Members", "Members", "default"};
 
         for (String g : gs)
         {
@@ -109,7 +120,7 @@ public class CommandManager extends PlayerListener
                     String prefix = plugin.mchat.API.getPrefix(pl).replace("&", "\u00a7");
                     String suffix = plugin.mchat.API.getSuffix(pl).replace("&", "\u00a7");
 
-                    if (plugin.vanishPlugin != null && plugin.vanishPlugin.getManager().isVanished(pl) && isAdmin)
+                    if (plugin.vanishPlugin != null && plugin.vanishPlugin.isPlayerInvisible(pl.getName()) && isAdmin)
                     {
                         prefix = ChatColor.WHITE + "(vanish)" + prefix;
                     }
@@ -149,30 +160,33 @@ public class CommandManager extends PlayerListener
             ChatBlock.sendMessage(player, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
             ChatBlock.sendMessage(toplayer, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
 
-            Core.log.info("[msg] (" + player.getName() + ">" + toplayer.getName() + ") " + msg);
+            CraftServer server = (CraftServer) plugin.getServer();
+            ConsoleCommandSender sender = plugin.getServer().getConsoleSender();
+
+            sender.sendMessage(ChatColor.LIGHT_PURPLE + "[msg] (" + ChatColor.BLUE + player.getDisplayName() + ChatColor.LIGHT_PURPLE + ">" + toplayer.getDisplayName() + ") " + ChatColor.WHITE + msg);
             return true;
         }
 
         if (conversations.containsKey(player.getName()))
         {
-            ChatBlock.sendMessage(player, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.RED + "Ended your conversation with " + conversations.get(player.getName()));
+            ChatBlock.sendMessage(player, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.RED + "Ended your conversation with " + conversations.get(player.getDisplayName()));
 
-            Player playerother = Helper.matchUniquePlayer(plugin, conversations.get(player.getName()));
+            Player playerother = Helper.matchUniquePlayer(plugin, conversations.get(player.getDisplayName()));
 
             if (playerother != null)
             {
-                ChatBlock.sendMessage(playerother, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.RED + Helper.capitalize(player.getName()) + " ended his conversation with you.");
+                ChatBlock.sendMessage(playerother, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.RED + Helper.capitalize(player.getDisplayName()) + " ended his conversation with you.");
             }
         }
 
         ChatBlock.sendMessage(player, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.LIGHT_PURPLE + "Started a conversation. Reply with /m.");
-        ChatBlock.sendMessage(player, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
+        ChatBlock.sendMessage(player, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getDisplayName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getDisplayName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
 
         if (conversations.containsKey(toplayer.getName()))
         {
-            ChatBlock.sendMessage(toplayer, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.RED + "Ended your conversation with " + conversations.get(toplayer.getName()));
+            ChatBlock.sendMessage(toplayer, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.RED + "Ended your conversation with " + conversations.get(toplayer.getDisplayName()));
 
-            Player playerother = Helper.matchUniquePlayer(plugin, conversations.get(toplayer.getName()));
+            Player playerother = Helper.matchUniquePlayer(plugin, conversations.get(toplayer.getDisplayName()));
 
             if (playerother != null)
             {
@@ -181,9 +195,12 @@ public class CommandManager extends PlayerListener
         }
 
         ChatBlock.sendMessage(toplayer, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.LIGHT_PURPLE + "A conversation was started with you. Reply with /m.");
-        ChatBlock.sendMessage(toplayer, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
+        ChatBlock.sendMessage(toplayer, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getDisplayName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getDisplayName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
 
-        Core.log.info("[msg] (" + player.getName() + ">" + toplayer.getName() + ") " + msg);
+        CraftServer server = (CraftServer) plugin.getServer();
+        ConsoleCommandSender sender = plugin.getServer().getConsoleSender();
+
+        sender.sendMessage(ChatColor.LIGHT_PURPLE + "[msg] (" + ChatColor.BLUE + player.getDisplayName() + ChatColor.LIGHT_PURPLE + ">" + toplayer.getDisplayName() + ") " + ChatColor.WHITE + msg);
 
         conversations.put(player.getName(), toplayer.getName());
         conversations.put(toplayer.getName(), player.getName());
@@ -208,7 +225,10 @@ public class CommandManager extends PlayerListener
         ChatBlock.sendMessage(player, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
         ChatBlock.sendMessage(toplayer, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
 
-        Core.log.info("[msg] (" + player.getName() + ">" + toplayer.getName() + ") " + msg);
+        CraftServer server = (CraftServer) plugin.getServer();
+        ConsoleCommandSender sender = plugin.getServer().getConsoleSender();
+
+        sender.sendMessage(ChatColor.LIGHT_PURPLE + "[msg] (" + ChatColor.BLUE + player.getDisplayName() + ChatColor.LIGHT_PURPLE + ">" + toplayer.getName() + ") " + ChatColor.WHITE + msg);
 
         conversations.put(player.getName(), toplayer.getName());
         return true;

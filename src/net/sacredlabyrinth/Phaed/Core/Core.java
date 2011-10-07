@@ -1,8 +1,10 @@
 package net.sacredlabyrinth.Phaed.Core;
 
+import com.nilla.vanishnopickup.VanishNoPickup;
 import com.platymuus.bukkit.permissions.Group;
 import com.platymuus.bukkit.permissions.PermissionsPlugin;
 import net.D3GN.MiracleM4n.mChat.mChat;
+import net.sacredlabyrinth.Phaed.Core.listeners.CEntityListener;
 import net.sacredlabyrinth.Phaed.Core.listeners.CPlayerListener;
 import net.sacredlabyrinth.Phaed.Core.managers.CommandManager;
 import net.sacredlabyrinth.Phaed.Core.managers.ItemManager;
@@ -20,7 +22,6 @@ import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import to.joe.vanish.VanishPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +38,14 @@ import java.util.logging.Logger;
 public class Core extends JavaPlugin
 {
     private CPlayerListener playerListener;
+    private CEntityListener entityListener;
+
     public SettingsManager settings;
     public CommandManager cm;
     public PlugManager plm;
     public ItemManager im;
     public static Logger log;
-    public VanishPlugin vanishPlugin;
+    public VanishNoPickup vanishPlugin;
     public PermissionsPlugin perms;
     public mChat mchat;
     public int[] throughFields = new int[]{0};
@@ -50,6 +53,7 @@ public class Core extends JavaPlugin
     public void onEnable()
     {
         playerListener = new CPlayerListener(this);
+        entityListener = new CEntityListener(this);
         settings = new SettingsManager(this);
         cm = new CommandManager(this);
         plm = new PlugManager(this);
@@ -61,12 +65,18 @@ public class Core extends JavaPlugin
         setupMChat();
 
         getServer().getPluginManager().registerEvent(Event.Type.PLAYER_PRELOGIN, playerListener, Priority.High, this);
+        getServer().getPluginManager().registerEvent(Event.Type.ENTITY_DEATH, entityListener, Priority.High, this);
 
         log.setFilter(new Filter()
         {
             public boolean isLoggable(LogRecord record)
             {
                 if (record.getMessage().contains("overloaded?"))
+                {
+                    return false;
+                }
+
+                if (record.getMessage().contains("You moved too quickly"))
                 {
                     return false;
                 }
@@ -91,11 +101,11 @@ public class Core extends JavaPlugin
         {
             if (this_plugin != null)
             {
-                vanishPlugin = ((VanishPlugin) this_plugin);
+                vanishPlugin = ((VanishNoPickup) this_plugin);
             }
             else
             {
-                log.info("[" + getDescription().getName() + "] Failed to find VanishNoPacket");
+                log.info("[" + getDescription().getName() + "] Failed to find VanishNoPickup");
             }
         }
     }
