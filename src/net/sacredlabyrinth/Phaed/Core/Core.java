@@ -170,6 +170,7 @@ public class Core extends JavaPlugin
 
                 if (settings.lockDown)
                 {
+                    settings.lockDown = false;
                     sender.sendMessage("Server is open");
                     return true;
                 }
