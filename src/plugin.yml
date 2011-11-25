@@ -1,6 +1,6 @@
 name: Core
 main: net.sacredlabyrinth.Phaed.Core.Core
-version: 1.4.1
+version: 1.4.2
 softdepend: [PermissionsBukkit, VanishNoPacket, mChat]
 commands:
   lockdown:
@@ -23,6 +23,8 @@ commands:
     description:
   who:
     description:
+  maxxp:
+    description:      
   list:
     description:
   clear:

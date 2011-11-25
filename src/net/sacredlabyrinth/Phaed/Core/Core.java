@@ -461,6 +461,60 @@ public class Core extends JavaPlugin
 
                 return true;
             }
+            else if (commandName.equals("maxxp"))
+            {
+                if (sender instanceof Player)
+                {
+                    Player player = (Player) sender;
+                    if (player.hasPermission("core.maxxp"))
+                    {
+                        Player xpPlayer;
+                        if (split.length > 0){
+                             List<Player> matched = getServer().matchPlayer(split[0]);
+                             if(matched.isEmpty()){
+                                 ChatBlock.sendMessage(sender, ChatColor.WHITE + "No Player Matched: " + split[0]);
+                                 return true;
+                             }
+                             xpPlayer = matched.get(0);
+                        }
+                        else{
+                            xpPlayer = player;
+                        }
+                        //ChatBlock.sendMessage(sender, ChatColor.WHITE + "Current Total Experience and Level " + xpPlayer.getTotalExperience() + " : " + xpPlayer.getLevel());
+                        //xpPlayer.setLevel(0);
+                        xpPlayer.setTotalExperience(100);
+                        //xpPlayer.setLevel(100);
+                        //xpPlayer.setExperience(10);
+                        
+                        ChatBlock.sendMessage(sender, ChatColor.WHITE + "Player XP Level set to 100");
+                    }
+
+                    
+                }
+                else
+                {
+                    
+                    if (split.length > 0){
+                        Player xpPlayer;
+                         List<Player> matched = getServer().matchPlayer(split[0]);
+                         if(matched.isEmpty()){
+                             ChatBlock.sendMessage(sender, ChatColor.WHITE + "No Player Matched: " + split[0]);
+                             return true;
+                         }
+                         xpPlayer = matched.get(0);
+                         xpPlayer.setLevel(100);
+                        ChatBlock.sendMessage(sender, ChatColor.WHITE + "Player XP Level set to 100");
+                    }
+                    else
+                    {
+                        sender.sendMessage("Command requires a player");
+                    }
+                    
+                    
+                }
+
+                return true;
+            }
             else if (commandName.equals("msg"))
             {
                 if (sender instanceof Player)

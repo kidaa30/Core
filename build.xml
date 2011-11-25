@@ -11,7 +11,7 @@
     <description>Builds, tests, and runs the project Core.</description>
     <import file="nbproject/build-impl.xml"/>
     <target name="-post-jar">
-      <copy file="${dist.jar}" todir="c:\Users\telaeris\Development\plugins\"/>
+      <copy file="${dist.jar}" todir="..\plugins\"/>
     </target>
     <!--
 
