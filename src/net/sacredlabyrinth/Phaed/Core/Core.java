@@ -30,6 +30,7 @@ import java.util.logging.Filter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import net.D3GN.MiracleM4n.mChat.mChat;
 
 /**
  * Core for Bukkit
@@ -48,7 +49,8 @@ public class Core extends JavaPlugin
     public static Logger log;
     public VanishNoPickup vanishPlugin;
     public PermissionsPlugin perms;
-    public mChatSuite mchat;
+    public mChatSuite mchatSuite;
+    public mChat mchat;
     public int[] throughFields = new int[]{0};
 
     public void onEnable()
@@ -64,6 +66,7 @@ public class Core extends JavaPlugin
         setupVanish();
         setupPermissionsBukkit();
         setupMChatSuite();
+        setupMChat();
 
         getServer().getPluginManager().registerEvent(Event.Type.PLAYER_PRELOGIN, playerListener, Priority.High, this);
         getServer().getPluginManager().registerEvent(Event.Type.ENTITY_DEATH, entityListener, Priority.High, this);
@@ -128,15 +131,31 @@ public class Core extends JavaPlugin
         }
     }
 
+    private void setupMChat()
+    {
+        Plugin plug = getServer().getPluginManager().getPlugin("mChat");
+
+        if (mchatSuite == null)
+        {
+            if (plug != null)
+            {
+                mchat = ((mChat) plug);
+            }
+            else
+            {
+                log.info("[" + getDescription().getName() + "] Failed to find mChat");
+            }
+        }
+    }
     private void setupMChatSuite()
     {
         Plugin plug = getServer().getPluginManager().getPlugin("mChatSuite");
 
-        if (mchat == null)
+        if (mchatSuite == null)
         {
             if (plug != null)
             {
-                mchat = ((mChatSuite) plug);
+                mchatSuite = ((mChatSuite) plug);
             }
             else
             {

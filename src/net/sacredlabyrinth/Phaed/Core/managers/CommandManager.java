@@ -122,9 +122,13 @@ public class CommandManager extends PlayerListener
                 {   
                     String prefix = "";
                     String suffix = "";
-                    if(plugin.mchat != null){
-                        prefix = plugin.mchat.getAPI().getPrefix(pl).replace("&", "\u00a7");
-                        suffix = plugin.mchat.getAPI().getSuffix(pl).replace("&", "\u00a7");
+                    if(plugin.mchatSuite != null){
+                        prefix = plugin.mchatSuite.getAPI().getPrefix(pl).replace("&", "\u00a7");
+                        suffix = plugin.mchatSuite.getAPI().getSuffix(pl).replace("&", "\u00a7");
+                    }
+                    else if(plugin.mchat != null){
+                        prefix = plugin.mchat.API.getPrefix(pl).replace("&", "\u00a7");
+                        suffix = plugin.mchat.API.getSuffix(pl).replace("&", "\u00a7");
                     }
                     
                     
