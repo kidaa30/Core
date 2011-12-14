@@ -1,6 +1,8 @@
 package net.sacredlabyrinth.Phaed.Core.managers;
 
+import com.platymuus.bukkit.permissions.PermissionsPlugin;
 import com.platymuus.bukkit.permissions.Group;
+import java.util.ArrayList;
 import net.sacredlabyrinth.Phaed.Core.ChatBlock;
 import net.sacredlabyrinth.Phaed.Core.Core;
 import net.sacredlabyrinth.Phaed.Core.Helper;
@@ -14,6 +16,7 @@ import org.bukkit.event.player.PlayerListener;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import org.bukkit.plugin.Plugin;
 
 public class CommandManager extends PlayerListener
 {
@@ -60,7 +63,7 @@ public class CommandManager extends PlayerListener
         player.sendMessage(ChatColor.LIGHT_PURPLE + "It is now night");
         return true;
     }
-
+    
     public void who(CommandSender sender, String world)
     {
         boolean isAdmin = false;
@@ -78,7 +81,6 @@ public class CommandManager extends PlayerListener
         HashMap<String, HashSet<Player>> groups = new HashMap<String, HashSet<Player>>();
 
         // sort players into groups
-
         Player[] online = plugin.getServer().getOnlinePlayers();
 
         for (int i = 0; i < online.length; i++)
@@ -88,7 +90,6 @@ public class CommandManager extends PlayerListener
             if (!gs.isEmpty())
             {
                 String group = gs.get(0).getName();
-
                 if (groups.containsKey(group))
                 {
                     ((HashSet) groups.get(group)).add(online[i]);
@@ -106,19 +107,27 @@ public class CommandManager extends PlayerListener
 
         String playerList = "";
         int playerCount = 0;
-
-        String[] gs = {"Admins", "Girl/UMods", "VIP/UMods", "UMods", "Girl/SMods", "VIP/SMods", "SMods", "Girl/Mods", "VIP/Mods", "Mods", "Girl/TenuredVeterans", "VIP/TenuredVeterans", "TenuredVeterans", "Girl/Veterans", "VIP/Veterans", "Veterans", "Girl/Members", "VIP/Members", "Members", "default"};
-
-        for (String g : gs)
-        {
+        
+        List<Group> ordered_groups = plugin.perms.getAllGroups();
+        
+       for(int i = ordered_groups.size() - 1; i >=0; i-- ){
+           Group grr = ordered_groups.get(i); 
+           String g = grr.getName();
+           
             HashSet<Player> set = groups.get(g);
 
             if (set != null)
             {
                 for (Player pl : set)
-                {
-                    String prefix = plugin.mchat.API.getPrefix(pl).replace("&", "\u00a7");
-                    String suffix = plugin.mchat.API.getSuffix(pl).replace("&", "\u00a7");
+                {   
+                    String prefix = "";
+                    String suffix = "";
+                    if(plugin.mchat != null){
+                        prefix = plugin.mchat.getAPI().getPrefix(pl).replace("&", "\u00a7");
+                        suffix = plugin.mchat.getAPI().getSuffix(pl).replace("&", "\u00a7");
+                    }
+                    
+                    
 
                     if (plugin.vanishPlugin != null && plugin.vanishPlugin.isPlayerInvisible(pl.getName()) && isAdmin)
                     {
