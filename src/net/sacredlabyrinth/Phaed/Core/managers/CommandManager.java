@@ -1,22 +1,17 @@
 package net.sacredlabyrinth.Phaed.Core.managers;
 
-import com.platymuus.bukkit.permissions.PermissionsPlugin;
 import com.platymuus.bukkit.permissions.Group;
-import java.util.ArrayList;
 import net.sacredlabyrinth.Phaed.Core.ChatBlock;
 import net.sacredlabyrinth.Phaed.Core.Core;
 import net.sacredlabyrinth.Phaed.Core.Helper;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerListener;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import org.bukkit.plugin.Plugin;
 
 public class CommandManager extends PlayerListener
 {
@@ -161,9 +156,6 @@ public class CommandManager extends PlayerListener
 
     public boolean msg(Player player, String to, String msg)
     {
-        ConsoleCommandSender sender = plugin.getServer().getConsoleSender();
-        //sender.sendMessage(ChatColor.LIGHT_PURPLE + "[DEBUG msg]" + player.getName() + " (TO): " + ChatColor.WHITE + to + ChatColor.LIGHT_PURPLE + "(MSG): " + ChatColor.WHITE + msg);
-        
         Player toplayer = Helper.matchUniquePlayer(plugin, to);
 
         if ((toplayer == null) || (to == null))
@@ -177,8 +169,8 @@ public class CommandManager extends PlayerListener
             ChatBlock.sendMessage(toplayer, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
 
             
-
-            sender.sendMessage(ChatColor.LIGHT_PURPLE + "[msg] (" + ChatColor.BLUE + player.getDisplayName() + ChatColor.LIGHT_PURPLE + ">" + toplayer.getDisplayName() + ") " + ChatColor.WHITE + msg);
+            
+            plugin.log.info(ChatColor.LIGHT_PURPLE + "[msg] (" + ChatColor.BLUE + player.getDisplayName() + ChatColor.LIGHT_PURPLE + ">" + toplayer.getDisplayName() + ") " + ChatColor.WHITE + msg);
             return true;
         }
 
@@ -212,9 +204,7 @@ public class CommandManager extends PlayerListener
         ChatBlock.sendMessage(toplayer, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.LIGHT_PURPLE + "A conversation was started with you. Reply with /m.");
         ChatBlock.sendMessage(toplayer, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getDisplayName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getDisplayName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
 
-        
-
-        sender.sendMessage(ChatColor.LIGHT_PURPLE + "[msg] (" + ChatColor.BLUE + player.getDisplayName() + ChatColor.LIGHT_PURPLE + ">" + toplayer.getDisplayName() + ") " + ChatColor.WHITE + msg);
+        plugin.log.info(ChatColor.LIGHT_PURPLE + "[msg] (" + ChatColor.BLUE + player.getDisplayName() + ChatColor.LIGHT_PURPLE + ">" + toplayer.getDisplayName() + ") " + ChatColor.WHITE + msg);
 
         conversations.put(player.getName(), toplayer.getName());
         conversations.put(toplayer.getName(), player.getName());
@@ -239,10 +229,8 @@ public class CommandManager extends PlayerListener
         ChatBlock.sendMessage(player, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
         ChatBlock.sendMessage(toplayer, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
 
-        CraftServer server = (CraftServer) plugin.getServer();
-        ConsoleCommandSender sender = plugin.getServer().getConsoleSender();
 
-        sender.sendMessage(ChatColor.LIGHT_PURPLE + "[msg] (" + ChatColor.BLUE + player.getDisplayName() + ChatColor.LIGHT_PURPLE + ">" + toplayer.getName() + ") " + ChatColor.WHITE + msg);
+        plugin.log.info(ChatColor.LIGHT_PURPLE + "[msg] (" + ChatColor.BLUE + player.getDisplayName() + ChatColor.LIGHT_PURPLE + ">" + toplayer.getName() + ") " + ChatColor.WHITE + msg);
 
         conversations.put(player.getName(), toplayer.getName());
         return true;
