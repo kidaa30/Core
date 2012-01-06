@@ -114,6 +114,13 @@ public class Core extends JavaPlugin
         }
     }
 
+     /*
+     * Fake main to allow us to run from netbeans
+     */
+    public static void main(String[] args) {
+        
+        
+    }
     private void setupPermissionsBukkit()
     {
         Plugin plug = getServer().getPluginManager().getPlugin("PermissionsBukkit");

@@ -1,6 +1,7 @@
 package net.sacredlabyrinth.Phaed.Core.managers;
 
 import com.platymuus.bukkit.permissions.Group;
+import in.mDev.MiracleM4n.mChatSuite.mChatSuite;
 import net.sacredlabyrinth.Phaed.Core.ChatBlock;
 import net.sacredlabyrinth.Phaed.Core.Core;
 import net.sacredlabyrinth.Phaed.Core.Helper;
@@ -115,29 +116,28 @@ public class CommandManager extends PlayerListener
             {
                 for (Player pl : set)
                 {   
-                    String prefix = "";
-                    String suffix = "";
+                    String mName = "";
+  //                  String suffix = "";
                     if(plugin.mchatSuite != null){
-                        prefix = plugin.mchatSuite.getAPI().getPrefix(pl).replace("&", "\u00a7");
-                        suffix = plugin.mchatSuite.getAPI().getSuffix(pl).replace("&", "\u00a7");
+//                        prefix = plugin.mchatSuite.getAPI().g
+                        mName = plugin.mchatSuite.getAPI().ParsePlayerName(pl);
                     }
                     else if(plugin.mchat != null){
-                        prefix = plugin.mchat.API.getPrefix(pl).replace("&", "\u00a7");
-                        suffix = plugin.mchat.API.getSuffix(pl).replace("&", "\u00a7");
+                        mName = plugin.mchat.API.getPrefix(pl).replace("&", "\u00a7") + pl.getName() +  plugin.mchat.API.getSuffix(pl).replace("&", "\u00a7");
                     }
                     
                     
 
                     if (plugin.vanishPlugin != null && plugin.vanishPlugin.isPlayerInvisible(pl.getName()) && isAdmin)
                     {
-                        prefix = ChatColor.WHITE + "(vanish)" + prefix;
+                        mName = ChatColor.WHITE + "(vanish)" + mName;
                     }
                     else
                     {
                         playerCount++;
                     }
 
-                    playerList += ChatColor.DARK_GRAY + ", " + prefix + pl.getName() + suffix;
+                    playerList += ChatColor.DARK_GRAY + ", " + mName;
                 }
             }
         }

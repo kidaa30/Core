@@ -1,6 +1,6 @@
 name: Core
 main: net.sacredlabyrinth.Phaed.Core.Core
-version: 1.4.6
+version: 1.4.7a
 softdepend: [PermissionsBukkit, VanishNoPacket, mChat, mChatSuite]
 commands:
   lockdown:
