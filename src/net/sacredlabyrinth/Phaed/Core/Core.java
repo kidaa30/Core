@@ -4,7 +4,7 @@ package net.sacredlabyrinth.Phaed.Core;
 import com.nilla.vanishnopickup.VanishNoPickup;
 import com.platymuus.bukkit.permissions.Group;
 import com.platymuus.bukkit.permissions.PermissionsPlugin;
-import in.mDev.MiracleM4n.mChatSuite.mChatSuite;
+
 import net.sacredlabyrinth.Phaed.Core.listeners.CEntityListener;
 import net.sacredlabyrinth.Phaed.Core.listeners.CPlayerListener;
 import net.sacredlabyrinth.Phaed.Core.managers.CommandManager;
@@ -23,6 +23,9 @@ import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import in.mDev.MiracleM4n.mChatSuite.mChatAPI;
+import in.mDev.MiracleM4n.mChatSuite.mChatSuite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +69,7 @@ public class Core extends JavaPlugin
         setupVanish();
         setupPermissionsBukkit();
         setupMChatSuite();
-        setupMChat();
+        setupmChat();
 
         getServer().getPluginManager().registerEvent(Event.Type.PLAYER_PRELOGIN, playerListener, Priority.High, this);
         getServer().getPluginManager().registerEvent(Event.Type.ENTITY_DEATH, entityListener, Priority.High, this);
@@ -138,11 +141,11 @@ public class Core extends JavaPlugin
         }
     }
 
-    private void setupMChat()
+    private void setupmChat()
     {
         Plugin plug = getServer().getPluginManager().getPlugin("mChat");
 
-        if (mchatSuite == null)
+        if (mchat == null)
         {
             if (plug != null)
             {

@@ -1,7 +1,6 @@
 package net.sacredlabyrinth.Phaed.Core.managers;
 
 import com.platymuus.bukkit.permissions.Group;
-import in.mDev.MiracleM4n.mChatSuite.mChatSuite;
 import net.sacredlabyrinth.Phaed.Core.ChatBlock;
 import net.sacredlabyrinth.Phaed.Core.Core;
 import net.sacredlabyrinth.Phaed.Core.Helper;
@@ -117,14 +116,13 @@ public class CommandManager extends PlayerListener
                 for (Player pl : set)
                 {   
                     String mName = "";
-  //                  String suffix = "";
                     if(plugin.mchatSuite != null){
-//                        prefix = plugin.mchatSuite.getAPI().g
                         mName = plugin.mchatSuite.getAPI().ParsePlayerName(pl);
                     }
                     else if(plugin.mchat != null){
                         mName = plugin.mchat.API.getPrefix(pl).replace("&", "\u00a7") + pl.getName() +  plugin.mchat.API.getSuffix(pl).replace("&", "\u00a7");
                     }
+
                     
                     
 
