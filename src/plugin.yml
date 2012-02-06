@@ -1,12 +1,20 @@
 name: Core
 main: net.sacredlabyrinth.Phaed.Core.Core
-version: 1.4.7a
+version: 1.5.0
 softdepend: [PermissionsBukkit, VanishNoPacket, mChat, mChatSuite]
 commands:
+  setrank:
+    description:
+  setvip:
+    description:
   lockdown:
     description:
   data:
     description:
+  sun:
+    description:
+  storm:
+    description: 
   day:
     description:
   night:
@@ -61,4 +69,8 @@ permissions:
   core.clear:
     description:
   core.plugin:
+    description:
+  core.setrank:
+    description:
+  core.setvip:
     description:

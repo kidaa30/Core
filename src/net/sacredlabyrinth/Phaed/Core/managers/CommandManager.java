@@ -1,6 +1,8 @@
 package net.sacredlabyrinth.Phaed.Core.managers;
 
 import com.platymuus.bukkit.permissions.Group;
+import com.platymuus.bukkit.permissions.PermissionInfo;
+import java.util.ArrayList;
 import net.sacredlabyrinth.Phaed.Core.ChatBlock;
 import net.sacredlabyrinth.Phaed.Core.Core;
 import net.sacredlabyrinth.Phaed.Core.Helper;
@@ -23,6 +25,26 @@ public class CommandManager extends PlayerListener
         this.plugin = plugin;
     }
 
+    public boolean sun(Player player)
+    {
+        
+        player.getWorld().setStorm(false);
+        player.getWorld().setThundering(false);
+        
+
+        player.sendMessage(ChatColor.LIGHT_PURPLE + "It is now Sunny!");
+        return true;
+    }
+
+    public boolean storm(Player player)
+    {
+        player.getWorld().setStorm(true);
+        player.getWorld().setThundering(true);
+        player.getWorld().setThunderDuration(60);
+        player.sendMessage(ChatColor.LIGHT_PURPLE + "It is now Stormy!");
+        return true;
+    }
+    
     public boolean day(Player player)
     {
         long curtime = player.getWorld().getTime();
@@ -58,7 +80,7 @@ public class CommandManager extends PlayerListener
         player.sendMessage(ChatColor.LIGHT_PURPLE + "It is now night");
         return true;
     }
-
+    
     public void who(CommandSender sender, String world)
     {
         boolean isAdmin = false;
@@ -84,7 +106,9 @@ public class CommandManager extends PlayerListener
 
             if (!gs.isEmpty())
             {
-                String group = gs.get(0).getName();
+                Group g = gs.get(0);
+                String group = g.getName();
+                
                 if (groups.containsKey(group))
                 {
                     ((HashSet) groups.get(group)).add(online[i]);
@@ -102,29 +126,29 @@ public class CommandManager extends PlayerListener
 
         String playerList = "";
         int playerCount = 0;
-
+        
         List<Group> ordered_groups = plugin.perms.getAllGroups();
-
-        for (int i = ordered_groups.size() - 1; i >= 0; i--)
-        {
-            Group grr = ordered_groups.get(i);
-            String g = grr.getName();
-
+        
+       for(int i = ordered_groups.size() - 1; i >=0; i-- ){
+           Group grr = ordered_groups.get(i); 
+           String g = grr.getName();
+           
             HashSet<Player> set = groups.get(g);
 
             if (set != null)
             {
                 for (Player pl : set)
-                {
+                {   
                     String mName = "";
-                    if (plugin.mchatSuite != null)
-                    {
+                    if(plugin.mchatSuite != null){
                         mName = plugin.mchatSuite.getAPI().ParsePlayerName(pl, pl.getWorld());
                     }
-                    else if (plugin.mchat != null)
-                    {
-                        mName = plugin.mchat.API.getPrefix(pl).replace("&", "\u00a7") + pl.getName() + plugin.mchat.API.getSuffix(pl).replace("&", "\u00a7");
+                    else if(plugin.mchat != null){
+                        mName = plugin.mchat.API.getPrefix(pl).replace("&", "\u00a7") + pl.getName() +  plugin.mchat.API.getSuffix(pl).replace("&", "\u00a7");
                     }
+
+                    
+                    
 
                     if (plugin.vanishPlugin != null && plugin.vanishPlugin.isPlayerInvisible(pl.getName()) && isAdmin)
                     {
@@ -166,7 +190,8 @@ public class CommandManager extends PlayerListener
             ChatBlock.sendMessage(player, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
             ChatBlock.sendMessage(toplayer, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
 
-
+            
+            
             plugin.log.info(ChatColor.LIGHT_PURPLE + "[msg] (" + ChatColor.BLUE + player.getDisplayName() + ChatColor.LIGHT_PURPLE + ">" + toplayer.getDisplayName() + ") " + ChatColor.WHITE + msg);
             return true;
         }
@@ -231,5 +256,63 @@ public class CommandManager extends PlayerListener
 
         conversations.put(player.getName(), toplayer.getName());
         return true;
+    }
+
+    public void setrank(CommandSender sender, String[] split) {
+        
+        plugin.log.info(ChatColor.LIGHT_PURPLE + "[setrank]: " + Helper.toMessage(split));
+        
+        
+        if (split.length > 0)
+        {
+            String playername = split[0];
+            if (split.length > 1)
+            {
+                String groupname = split[1];
+                List<Group> PlayerGroups = plugin.perms.getGroups(playername);
+                if((PlayerGroups == null) || (PlayerGroups.isEmpty()))
+                {
+                    ChatBlock.sendMessage(sender, "[setrank] " + ChatColor.LIGHT_PURPLE + " Could not find player: '" + playername + "'");
+                    return;
+                }
+                List<Group> ServerGroups = plugin.perms.getAllGroups();
+
+                
+                
+                boolean bGroupExists = false;
+                for(Group oGroup : ServerGroups){
+                    //Need to make sure we have the groupname on the server
+                    if(oGroup.getName().equals(groupname)){
+                        bGroupExists = true;
+                        break;
+                    }
+                }
+                if(!bGroupExists){
+                    ChatBlock.sendMessage(sender, "[setrank] " + ChatColor.LIGHT_PURPLE + " Could not find group: '" + groupname + "'");
+                    return;
+                }
+                
+                List<String> lsPermsCommands = new ArrayList<String>();
+                
+                //if we already had the group to ignore, add it back into the permissions
+                
+                lsPermsCommands.add("perm player setgroup " + playername + " " + groupname);
+                //Re-add all the other groups the player had
+                int iCount = 0;
+                if(PlayerGroups.size() > 1){
+                    while(iCount < PlayerGroups.size()){
+                        if(iCount > 0){
+                            lsPermsCommands.add("perm player addgroup " + playername + " " + PlayerGroups.get(iCount).getName());
+                        }
+                        iCount += 1;
+                    }
+                }           
+                
+                for(String sCmd : lsPermsCommands){
+                    plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), sCmd);
+                    ChatBlock.sendMessage(sender, "[setrank] " + ChatColor.LIGHT_PURPLE + " Command Sent to setrank: '" + sCmd + "'");
+                }
+            }
+        }
     }
 }

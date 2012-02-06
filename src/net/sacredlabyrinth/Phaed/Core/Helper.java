@@ -212,6 +212,14 @@ public class Helper
     public static String stripColors(String msg)
     {
         String out = msg.replaceAll("[&][0-9a-f]", "");
+        out = out.replace("<black>", "").replace("<navy>", "")
+                .replace("<green>", "").replace("<teal>", "")
+                .replace("<red>", "").replace("<purple>", "")
+                .replace("<gold>", "").replace("<silver>", "")
+                .replace("<gray>", "").replace("<blue>", "")
+                .replace("<lime>", "").replace("<aqua>", "")
+                .replace("<rose>", "").replace("<pink>", "")
+                .replace("<yellow>", "").replace("<white>", "");
         out = out.replaceAll(String.valueOf((char) 194), "");
         return out.replaceAll("[\u00a7][0-9a-f]", "");
     }

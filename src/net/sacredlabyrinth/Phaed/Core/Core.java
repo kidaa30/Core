@@ -70,6 +70,7 @@ public class Core extends JavaPlugin
 
         getServer().getPluginManager().registerEvent(Event.Type.PLAYER_PRELOGIN, playerListener, Priority.High, this);
         getServer().getPluginManager().registerEvent(Event.Type.ENTITY_DEATH, entityListener, Priority.High, this);
+        getServer().getPluginManager().registerEvent(Event.Type.CREATURE_SPAWN, entityListener, Priority.Normal, this);
 
         log.setFilter(new Filter()
         {
@@ -317,6 +318,42 @@ public class Core extends JavaPlugin
                             player.sendMessage(ChatColor.RED + "Not pointing at a block");
                         }
 
+                        return true;
+                    }
+                }
+                else
+                {
+                    sender.sendMessage("Command requires a player");
+                }
+            }
+            else if (commandName.equals("sun"))
+            {
+                if (sender instanceof Player)
+                {
+                    Player player = (Player) sender;
+
+                    if (player.hasPermission("core.sun"))
+                    {
+                        cm.sun(player);
+                        Core.log.info("[core] " + player.getName() + " set world " + player.getWorld().getName() + " to sunny");
+                        return true;
+                    }
+                }
+                else
+                {
+                    sender.sendMessage("Command requires a player");
+                }
+            }
+            else if (commandName.equals("storm"))
+            {
+                if (sender instanceof Player)
+                {
+                    Player player = (Player) sender;
+
+                    if (player.hasPermission("core.storm"))
+                    {
+                        cm.storm(player);
+                        Core.log.info("[core] " + player.getName() + " set world " + player.getWorld().getName() + " to stormy");
                         return true;
                     }
                 }
@@ -640,6 +677,20 @@ public class Core extends JavaPlugin
                 {
                     sender.sendMessage("Command requires a player");
                 }
+            }
+            else if (commandName.equals("setrank"))
+            {
+                if (sender instanceof Player)
+                {
+                    Player player = (Player) sender;
+
+                    if (!player.hasPermission("core.setrank"))
+                    {
+                        return false;
+                    }
+                }
+                cm.setrank(sender, split);
+                return true;
             }
             else if (commandName.equals("plugin"))
             {
