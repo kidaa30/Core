@@ -58,7 +58,7 @@ public class CommandManager extends PlayerListener
         player.sendMessage(ChatColor.LIGHT_PURPLE + "It is now night");
         return true;
     }
-    
+
     public void who(CommandSender sender, String world)
     {
         boolean isAdmin = false;
@@ -102,29 +102,29 @@ public class CommandManager extends PlayerListener
 
         String playerList = "";
         int playerCount = 0;
-        
+
         List<Group> ordered_groups = plugin.perms.getAllGroups();
-        
-       for(int i = ordered_groups.size() - 1; i >=0; i-- ){
-           Group grr = ordered_groups.get(i); 
-           String g = grr.getName();
-           
+
+        for (int i = ordered_groups.size() - 1; i >= 0; i--)
+        {
+            Group grr = ordered_groups.get(i);
+            String g = grr.getName();
+
             HashSet<Player> set = groups.get(g);
 
             if (set != null)
             {
                 for (Player pl : set)
-                {   
+                {
                     String mName = "";
-                    if(plugin.mchatSuite != null){
-                        mName = plugin.mchatSuite.getAPI().ParsePlayerName(pl);
+                    if (plugin.mchatSuite != null)
+                    {
+                        mName = plugin.mchatSuite.getAPI().ParsePlayerName(pl, pl.getWorld());
                     }
-                    else if(plugin.mchat != null){
-                        mName = plugin.mchat.API.getPrefix(pl).replace("&", "\u00a7") + pl.getName() +  plugin.mchat.API.getSuffix(pl).replace("&", "\u00a7");
+                    else if (plugin.mchat != null)
+                    {
+                        mName = plugin.mchat.API.getPrefix(pl).replace("&", "\u00a7") + pl.getName() + plugin.mchat.API.getSuffix(pl).replace("&", "\u00a7");
                     }
-
-                    
-                    
 
                     if (plugin.vanishPlugin != null && plugin.vanishPlugin.isPlayerInvisible(pl.getName()) && isAdmin)
                     {
@@ -166,8 +166,7 @@ public class CommandManager extends PlayerListener
             ChatBlock.sendMessage(player, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
             ChatBlock.sendMessage(toplayer, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
 
-            
-            
+
             plugin.log.info(ChatColor.LIGHT_PURPLE + "[msg] (" + ChatColor.BLUE + player.getDisplayName() + ChatColor.LIGHT_PURPLE + ">" + toplayer.getDisplayName() + ") " + ChatColor.WHITE + msg);
             return true;
         }

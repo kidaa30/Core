@@ -4,7 +4,8 @@ package net.sacredlabyrinth.Phaed.Core;
 import com.nilla.vanishnopickup.VanishNoPickup;
 import com.platymuus.bukkit.permissions.Group;
 import com.platymuus.bukkit.permissions.PermissionsPlugin;
-
+import in.mDev.MiracleM4n.mChatSuite.mChatSuite;
+import net.D3GN.MiracleM4n.mChat.mChat;
 import net.sacredlabyrinth.Phaed.Core.listeners.CEntityListener;
 import net.sacredlabyrinth.Phaed.Core.listeners.CPlayerListener;
 import net.sacredlabyrinth.Phaed.Core.managers.CommandManager;
@@ -24,16 +25,12 @@ import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import in.mDev.MiracleM4n.mChatSuite.mChatAPI;
-import in.mDev.MiracleM4n.mChatSuite.mChatSuite;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Filter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-import net.D3GN.MiracleM4n.mChat.mChat;
 
 /**
  * Core for Bukkit
@@ -83,6 +80,11 @@ public class Core extends JavaPlugin
                     return false;
                 }
 
+                if (record.getMessage().contains("Unsupported operation"))
+                {
+                    return false;
+                }
+
                 if (record.getMessage().contains("You moved too quickly"))
                 {
                     return false;
@@ -117,13 +119,15 @@ public class Core extends JavaPlugin
         }
     }
 
-     /*
-     * Fake main to allow us to run from netbeans
-     */
-    public static void main(String[] args) {
-        
-        
+    /*
+    * Fake main to allow us to run from netbeans
+    */
+    public static void main(String[] args)
+    {
+
+
     }
+
     private void setupPermissionsBukkit()
     {
         Plugin plug = getServer().getPluginManager().getPlugin("PermissionsBukkit");
@@ -157,6 +161,7 @@ public class Core extends JavaPlugin
             }
         }
     }
+
     private void setupMChatSuite()
     {
         Plugin plug = getServer().getPluginManager().getPlugin("mChatSuite");
@@ -499,15 +504,18 @@ public class Core extends JavaPlugin
                     if (player.hasPermission("core.maxxp"))
                     {
                         Player xpPlayer;
-                        if (split.length > 0){
-                             List<Player> matched = getServer().matchPlayer(split[0]);
-                             if(matched.isEmpty()){
-                                 ChatBlock.sendMessage(sender, ChatColor.WHITE + "No Player Matched: " + split[0]);
-                                 return true;
-                             }
-                             xpPlayer = matched.get(0);
+                        if (split.length > 0)
+                        {
+                            List<Player> matched = getServer().matchPlayer(split[0]);
+                            if (matched.isEmpty())
+                            {
+                                ChatBlock.sendMessage(sender, ChatColor.WHITE + "No Player Matched: " + split[0]);
+                                return true;
+                            }
+                            xpPlayer = matched.get(0);
                         }
-                        else{
+                        else
+                        {
                             xpPlayer = player;
                         }
                         //ChatBlock.sendMessage(sender, ChatColor.WHITE + "Current Total Experience and Level " + xpPlayer.getTotalExperience() + " : " + xpPlayer.getLevel());
@@ -515,32 +523,34 @@ public class Core extends JavaPlugin
                         xpPlayer.setTotalExperience(100);
                         //xpPlayer.setLevel(100);
                         //xpPlayer.setExperience(10);
-                        
+
                         ChatBlock.sendMessage(sender, ChatColor.WHITE + "Player XP Level set to 100");
                     }
 
-                    
+
                 }
                 else
                 {
-                    
-                    if (split.length > 0){
+
+                    if (split.length > 0)
+                    {
                         Player xpPlayer;
-                         List<Player> matched = getServer().matchPlayer(split[0]);
-                         if(matched.isEmpty()){
-                             ChatBlock.sendMessage(sender, ChatColor.WHITE + "No Player Matched: " + split[0]);
-                             return true;
-                         }
-                         xpPlayer = matched.get(0);
-                         xpPlayer.setLevel(100);
+                        List<Player> matched = getServer().matchPlayer(split[0]);
+                        if (matched.isEmpty())
+                        {
+                            ChatBlock.sendMessage(sender, ChatColor.WHITE + "No Player Matched: " + split[0]);
+                            return true;
+                        }
+                        xpPlayer = matched.get(0);
+                        xpPlayer.setLevel(100);
                         ChatBlock.sendMessage(sender, ChatColor.WHITE + "Player XP Level set to 100");
                     }
                     else
                     {
                         sender.sendMessage("Command requires a player");
                     }
-                    
-                    
+
+
                 }
 
                 return true;
