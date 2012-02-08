@@ -141,7 +141,7 @@ public class CommandManager extends PlayerListener
                 {   
                     String mName = "";
                     if(plugin.mchatSuite != null){
-                        mName = plugin.mchatSuite.getAPI().ParsePlayerName(pl, pl.getWorld());
+                        mName = plugin.mchatSuite.getAPI().ParsePlayerName(pl.getName(), pl.getWorld().getName());
                     }
                     else if(plugin.mchat != null){
                         mName = plugin.mchat.API.getPrefix(pl).replace("&", "\u00a7") + pl.getName() +  plugin.mchat.API.getSuffix(pl).replace("&", "\u00a7");
