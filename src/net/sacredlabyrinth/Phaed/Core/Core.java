@@ -6,8 +6,7 @@ import com.platymuus.bukkit.permissions.Group;
 import com.platymuus.bukkit.permissions.PermissionsPlugin;
 import in.mDev.MiracleM4n.mChatSuite.mChatSuite;
 import net.D3GN.MiracleM4n.mChat.mChat;
-import net.sacredlabyrinth.Phaed.Core.listeners.CEntityListener;
-import net.sacredlabyrinth.Phaed.Core.listeners.CPlayerListener;
+import net.sacredlabyrinth.Phaed.Core.listeners.CoreEventListener;
 import net.sacredlabyrinth.Phaed.Core.managers.CommandManager;
 import net.sacredlabyrinth.Phaed.Core.managers.ItemManager;
 import net.sacredlabyrinth.Phaed.Core.managers.ItemManager.StackHolder;
@@ -20,8 +19,6 @@ import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -39,8 +36,7 @@ import java.util.logging.Logger;
  */
 public class Core extends JavaPlugin
 {
-    private CPlayerListener playerListener;
-    private CEntityListener entityListener;
+    private CoreEventListener eventListener;
 
     public SettingsManager settings;
     public CommandManager cm;
@@ -53,10 +49,10 @@ public class Core extends JavaPlugin
     public mChat mchat;
     public int[] throughFields = new int[]{0};
 
+    @Override
     public void onEnable()
     {
-        playerListener = new CPlayerListener(this);
-        entityListener = new CEntityListener(this);
+        eventListener = new CoreEventListener(this);
         settings = new SettingsManager(this);
         cm = new CommandManager(this);
         plm = new PlugManager(this);
@@ -68,9 +64,11 @@ public class Core extends JavaPlugin
         setupMChatSuite();
         setupmChat();
 
-        getServer().getPluginManager().registerEvent(Event.Type.PLAYER_PRELOGIN, playerListener, Priority.High, this);
+        
+        getServer().getPluginManager().registerEvents(eventListener, this);
+        /*getServer().getPluginManager().registerEvent(Event.Type.PLAYER_PRELOGIN, playerListener, Priority.High, this);
         getServer().getPluginManager().registerEvent(Event.Type.ENTITY_DEATH, entityListener, Priority.High, this);
-        getServer().getPluginManager().registerEvent(Event.Type.CREATURE_SPAWN, entityListener, Priority.Normal, this);
+        getServer().getPluginManager().registerEvent(Event.Type.CREATURE_SPAWN, entityListener, Priority.Normal, this);*/
 
         log.setFilter(new Filter()
         {
@@ -535,6 +533,7 @@ public class Core extends JavaPlugin
             }
             else if (commandName.equals("maxxp"))
             {
+                int iMaxLevel = 50;
                 if (sender instanceof Player)
                 {
                     Player player = (Player) sender;
@@ -556,12 +555,13 @@ public class Core extends JavaPlugin
                             xpPlayer = player;
                         }
                         //ChatBlock.sendMessage(sender, ChatColor.WHITE + "Current Total Experience and Level " + xpPlayer.getTotalExperience() + " : " + xpPlayer.getLevel());
-                        //xpPlayer.setLevel(0);
-                        xpPlayer.setTotalExperience(100);
+                        xpPlayer.setLevel(iMaxLevel);
+                        
+                        //xpPlayer.setTotalExperience(100);
                         //xpPlayer.setLevel(100);
                         //xpPlayer.setExperience(10);
 
-                        ChatBlock.sendMessage(sender, ChatColor.WHITE + "Player XP Level set to 100");
+                        ChatBlock.sendMessage(sender, ChatColor.WHITE + xpPlayer.getName() + " XP Level set to " + ChatColor.GOLD + iMaxLevel);
                     }
 
 
@@ -579,8 +579,8 @@ public class Core extends JavaPlugin
                             return true;
                         }
                         xpPlayer = matched.get(0);
-                        xpPlayer.setLevel(100);
-                        ChatBlock.sendMessage(sender, ChatColor.WHITE + "Player XP Level set to 100");
+                        xpPlayer.setLevel(iMaxLevel);
+                        ChatBlock.sendMessage(sender, ChatColor.WHITE + xpPlayer.getName() + " XP Level set to " + ChatColor.GOLD + iMaxLevel);
                     }
                     else
                     {
