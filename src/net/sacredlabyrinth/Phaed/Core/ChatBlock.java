@@ -1,12 +1,14 @@
 package net.sacredlabyrinth.Phaed.Core;
 
-import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.logging.Logger;
-import java.util.regex.*;
-import org.bukkit.command.CommandSender;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ChatBlock
 {
@@ -620,7 +622,7 @@ public class ChatBlock
 			// advance x to the next character
 			x = x + 1;
 
-			lastColor = ChatColor.getByCode(Integer.parseInt(msg.charAt(x) + "", 16)) + "";
+			lastColor = ChatColor.getByChar(msg.charAt(x)) + "";
 		    }
 		}
 		// Replace the message with the colorful message

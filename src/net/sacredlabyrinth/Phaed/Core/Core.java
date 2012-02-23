@@ -5,7 +5,6 @@ import com.nilla.vanishnopickup.VanishNoPickup;
 import com.platymuus.bukkit.permissions.Group;
 import com.platymuus.bukkit.permissions.PermissionsPlugin;
 import in.mDev.MiracleM4n.mChatSuite.mChatSuite;
-import net.D3GN.MiracleM4n.mChat.mChat;
 import net.sacredlabyrinth.Phaed.Core.listeners.CoreEventListener;
 import net.sacredlabyrinth.Phaed.Core.managers.CommandManager;
 import net.sacredlabyrinth.Phaed.Core.managers.ItemManager;
@@ -46,7 +45,6 @@ public class Core extends JavaPlugin
     public VanishNoPickup vanishPlugin;
     public PermissionsPlugin perms;
     public mChatSuite mchatSuite;
-    public mChat mchat;
     public int[] throughFields = new int[]{0};
 
     @Override
@@ -62,9 +60,7 @@ public class Core extends JavaPlugin
         setupVanish();
         setupPermissionsBukkit();
         setupMChatSuite();
-        setupmChat();
 
-        
         getServer().getPluginManager().registerEvents(eventListener, this);
         /*getServer().getPluginManager().registerEvent(Event.Type.PLAYER_PRELOGIN, playerListener, Priority.High, this);
         getServer().getPluginManager().registerEvent(Event.Type.ENTITY_DEATH, entityListener, Priority.High, this);
@@ -140,23 +136,6 @@ public class Core extends JavaPlugin
             else
             {
                 log.info("[" + getDescription().getName() + "] Failed to find PermissionsBukkit");
-            }
-        }
-    }
-
-    private void setupmChat()
-    {
-        Plugin plug = getServer().getPluginManager().getPlugin("mChat");
-
-        if (mchat == null)
-        {
-            if (plug != null)
-            {
-                mchat = ((mChat) plug);
-            }
-            else
-            {
-                log.info("[" + getDescription().getName() + "] Failed to find mChat");
             }
         }
     }
@@ -556,7 +535,7 @@ public class Core extends JavaPlugin
                         }
                         //ChatBlock.sendMessage(sender, ChatColor.WHITE + "Current Total Experience and Level " + xpPlayer.getTotalExperience() + " : " + xpPlayer.getLevel());
                         xpPlayer.setLevel(iMaxLevel);
-                        
+
                         //xpPlayer.setTotalExperience(100);
                         //xpPlayer.setLevel(100);
                         //xpPlayer.setExperience(10);

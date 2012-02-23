@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Core:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="91dc42a1-fe91-421d-983e-a2c469b5d882" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Plugins.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Plugins.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/ChatBlock.java" afterPath="$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/ChatBlock.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/Core.java" afterPath="$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/Core.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/Helper.java" afterPath="$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/Helper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/managers/CommandManager.java" afterPath="$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/managers/CommandManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/managers/SettingsManager.java" afterPath="$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/managers/SettingsManager.java" />
     </list>
     <ignored path="Core.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -18,7 +28,6 @@
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
-    <option name="REVERSE_PATCH" value="false" />
   </component>
   <component name="DaemonCodeAnalyzer">
     <disable_hints />
@@ -64,19 +73,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Core.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Core.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/Core.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="82" column="63" selection-start="2792" selection-end="2792" vertical-scroll-proportion="1.633987">
+            <state line="17" column="34" selection-start="778" selection-end="778" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CEntityListener.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/listeners/CEntityListener.java">
+      <file leaf-file-name="SettingsManager.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/managers/SettingsManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="12" selection-start="736" selection-end="736" vertical-scroll-proportion="0.0">
+            <state line="49" column="56" selection-start="1240" selection-end="1240" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Core.iml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Core.iml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="9" selection-start="488" selection-end="488" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="plugin.yml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/plugin.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="48" column="12" selection-start="709" selection-end="709" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -85,25 +112,34 @@
       <file leaf-file-name="ChatBlock.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/ChatBlock.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="13" selection-start="274" selection-end="274" vertical-scroll-proportion="0.0">
+            <state line="639" column="5" selection-start="14048" selection-end="14048" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CommandManager.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Helper.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/Helper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="263" column="43" selection-start="5767" selection-end="5767" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CommandManager.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/managers/CommandManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="121" column="94" selection-start="3549" selection-end="3549" vertical-scroll-proportion="0.0">
+            <state line="272" column="5" selection-start="10315" selection-end="10315" vertical-scroll-proportion="0.37566844">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CPlayerListener.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/listeners/CPlayerListener.java">
+      <file leaf-file-name="CoreEventListener.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/listeners/CoreEventListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="0" selection-start="732" selection-end="732" vertical-scroll-proportion="0.0">
+            <state line="32" column="0" selection-start="1184" selection-end="1184" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -126,6 +162,9 @@
         <option value="$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/listeners/cEntityListener.java" />
         <option value="$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/listeners/CEntityListener.java" />
         <option value="$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/managers/CommandManager.java" />
+        <option value="$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/managers/SettingsManager.java" />
+        <option value="$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/ChatBlock.java" />
+        <option value="$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/Helper.java" />
         <option value="$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/Core.java" />
       </list>
     </option>
@@ -133,6 +172,12 @@
   <component name="ModuleEditorState">
     <option name="LAST_EDITED_MODULE_NAME" />
     <option name="LAST_EDITED_TAB_NAME" />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="189" />
+    <option name="y" value="93" />
+    <option name="width" value="1645" />
+    <option name="height" value="918" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -160,8 +205,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Favorites" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -259,11 +302,13 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="Favorites" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="MemberChooser.sorted" value="false" />
@@ -271,10 +316,11 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -310,7 +356,7 @@
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
-      <extension name="coverage" enabled="false" merge="false" />
+      <extension name="coverage" enabled="false" merge="false" runner="idea" />
       <option name="MAIN_CLASS_NAME" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
@@ -331,7 +377,7 @@
       </method>
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
-      <extension name="coverage" enabled="false" merge="false" />
+      <extension name="coverage" enabled="false" merge="false" runner="idea" />
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -391,29 +437,37 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="87" y="83" width="1654" height="939" extended-state="0" />
-    <editor active="false" />
+    <frame x="189" y="93" width="1645" height="918" extended-state="1" />
+    <editor active="true" />
     <layout>
+      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38622385" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Metrics" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16572858" sideWeight="0.61377615" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1657179" sideWeight="0.6145038" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298292" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38549617" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Metrics" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
@@ -439,6 +493,12 @@
     <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
+    <option name="SHORT_DIFF_HORISONTALLY" value="true" />
+    <option name="SHORT_DIFF_EXTRA_LINES" value="2" />
+    <option name="SOFT_WRAPS_IN_SHORT_DIFF" value="true" />
+    <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
+    <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
+    <option name="CREATE_PATCH_EXPAND_DETAILS_DEFAULT" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="LAST_COMMIT_MESSAGE" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
@@ -462,6 +522,13 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/managers/SettingsManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="56" selection-start="1240" selection-end="1240" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Core.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="9" selection-start="488" selection-end="488" vertical-scroll-proportion="0.0" />
@@ -469,36 +536,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="12" selection-start="713" selection-end="713" vertical-scroll-proportion="0.61685824" />
+        <state line="48" column="12" selection-start="709" selection-end="709" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/ChatBlock.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="13" selection-start="274" selection-end="274" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/managers/CommandManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="94" selection-start="3549" selection-end="3549" vertical-scroll-proportion="0.0">
+        <state line="639" column="5" selection-start="14048" selection-end="14048" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/listeners/CPlayerListener.java">
+    <entry file="file://$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/Helper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="0" selection-start="732" selection-end="732" vertical-scroll-proportion="0.0">
+        <state line="263" column="43" selection-start="5767" selection-end="5767" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/listeners/CEntityListener.java">
+    <entry file="file://$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/listeners/CoreEventListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="12" selection-start="736" selection-end="736" vertical-scroll-proportion="0.0" />
+        <state line="32" column="0" selection-start="1184" selection-end="1184" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/Core.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="63" selection-start="2792" selection-end="2792" vertical-scroll-proportion="1.633987">
+        <state line="17" column="34" selection-start="778" selection-end="778" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/sacredlabyrinth/Phaed/Core/managers/CommandManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="272" column="5" selection-start="10315" selection-end="10315" vertical-scroll-proportion="0.37566844">
           <folding />
         </state>
       </provider>
@@ -515,6 +588,18 @@
               <list>
                 <option value="0.2" />
                 <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
               </list>
             </option>
           </splitter-proportions>
@@ -569,6 +654,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
+          <last-edited>Plugins</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

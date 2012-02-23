@@ -1,13 +1,13 @@
 package net.sacredlabyrinth.Phaed.Core;
 
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-
-import org.bukkit.entity.Player;
 
 public class Helper
 {
@@ -261,7 +261,7 @@ public class Helper
      */
     public static String toColor(String hexValue)
     {
-        return ChatColor.getByCode(Integer.valueOf(hexValue, 16)).toString();
+        return ChatColor.getByChar(hexValue).toString();
     }
 
     /**
