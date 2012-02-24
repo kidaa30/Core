@@ -14,7 +14,7 @@ commands:
   sun:
     description:
   storm:
-    description: 
+    description:
   day:
     description:
   night:
@@ -32,7 +32,7 @@ commands:
   who:
     description:
   maxxp:
-    description:      
+    description:
   list:
     description:
   clear:
@@ -74,3 +74,21 @@ permissions:
     description:
   core.setvip:
     description:
+  core.*:
+    default: false
+    description:
+    children:
+      core.lockdown: true
+      core.lockup: true
+      core.data: true
+      core.day: true
+      core.night: true
+      core.item: true
+      core.items: true
+      core.give: true
+      core.who: true
+      core.msg: true
+      core.clear: true
+      core.plugin: true
+      core.setrank: true
+      core.setvip: true

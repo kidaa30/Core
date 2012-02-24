@@ -62,9 +62,6 @@ public class Core extends JavaPlugin
         setupMChatSuite();
 
         getServer().getPluginManager().registerEvents(eventListener, this);
-        /*getServer().getPluginManager().registerEvent(Event.Type.PLAYER_PRELOGIN, playerListener, Priority.High, this);
-        getServer().getPluginManager().registerEvent(Event.Type.ENTITY_DEATH, entityListener, Priority.High, this);
-        getServer().getPluginManager().registerEvent(Event.Type.CREATURE_SPAWN, entityListener, Priority.Normal, this);*/
 
         log.setFilter(new Filter()
         {

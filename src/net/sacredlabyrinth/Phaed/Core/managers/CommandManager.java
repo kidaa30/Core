@@ -1,6 +1,7 @@
 package net.sacredlabyrinth.Phaed.Core.managers;
 
 import com.platymuus.bukkit.permissions.Group;
+import in.mDev.MiracleM4n.mChatSuite.api.mChatAPI;
 import net.sacredlabyrinth.Phaed.Core.ChatBlock;
 import net.sacredlabyrinth.Phaed.Core.Core;
 import net.sacredlabyrinth.Phaed.Core.Helper;
@@ -149,7 +150,9 @@ public class CommandManager implements Listener
                         {
                             if (plugin.mchatSuite != null)
                             {
-                                mName = plugin.mchatSuite.getAPI().ParsePlayerName(pl.getName(), pl.getWorld().getName());
+                                mChatAPI api = plugin.mchatSuite.getAPI();
+
+                                mName = api.ParsePlayerName(pl.getName(), pl.getWorld().getName());
                             }
                         }
                         catch (Exception ex)
