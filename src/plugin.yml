@@ -4,79 +4,79 @@ version: 1.5.3
 softdepend: [PermissionsBukkit, VanishNoPacket, mChat, mChatSuite]
 commands:
   setrank:
-    description:
+    description: command
   setvip:
-    description:
+    description: command
   lockdown:
-    description:
+    description: command
   data:
-    description:
+    description: command
   sun:
-    description:
+    description: command
   storm:
-    description:
+    description: command
   day:
-    description:
+    description: command
   night:
-    description:
+    description: command
   i:
-    description:
+    description: command
   item:
-    description:
+    description: command
   ims:
-    description:
+    description: command
   items:
-    description:
+    description: command
   give:
-    description:
+    description: command
   who:
-    description:
+    description: command
   maxxp:
-    description:
+    description: command
   list:
-    description:
+    description: command
   clear:
-    description:
+    description: command
   msg:
-    description:
+    description: command
   m:
-    description:
+    description: command
   plugin:
-    description:
+    description: command
   coords:
-    description:
+    description: command
 permissions:
   core.lockdown:
-    description:
+    description: description
   core.lockup:
-    description:
+    description: description
   core.data:
-    description:
+    description: description
   core.day:
-    description:
+    description: description
   core.night:
-    description:
+    description: description
   core.item:
-    description:
+    description: description
   core.items:
-    description:
+    description: description
   core.give:
-    description:
+    description: description
   core.who:
-    description:
+    description: description
   core.msg:
-    description:
+    description: description
   core.clear:
-    description:
+    description: description
   core.plugin:
-    description:
+    description: description
   core.setrank:
-    description:
+    description: description
   core.setvip:
-    description:
+    description: description
   core.*:
     default: false
-    description:
+    description: description
     children:
       core.lockdown: true
       core.lockup: true
