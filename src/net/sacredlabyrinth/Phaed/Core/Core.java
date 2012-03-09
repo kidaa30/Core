@@ -1,7 +1,6 @@
 package net.sacredlabyrinth.Phaed.Core;
 
 
-import com.nilla.vanishnopickup.VanishNoPickup;
 import com.platymuus.bukkit.permissions.PermissionsPlugin;
 import in.mDev.MiracleM4n.mChatSuite.mChatSuite;
 import net.sacredlabyrinth.Phaed.Core.listeners.CoreEventListener;
@@ -16,6 +15,7 @@ import java.util.logging.Filter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import org.kitteh.vanish.staticaccess.VanishNoPacket;
 
 /**
  * Core for Bukkit
@@ -31,7 +31,7 @@ public class Core extends JavaPlugin
     private PlugManager plm;
     private ItemManager im;
     public static Logger log;
-    public VanishNoPickup vanishPlugin;
+    public VanishNoPacket vanishPlugin;
     private PermissionsPlugin perms;
     public mChatSuite mchatSuite;
     private int[] throughFields = new int[]{0};
@@ -107,17 +107,17 @@ public class Core extends JavaPlugin
 
     private void setupVanish()
     {
-        Plugin this_plugin = getServer().getPluginManager().getPlugin("VanishNoPickup");
+        Plugin this_plugin = getServer().getPluginManager().getPlugin("VanishNoPacket");
 
         if (vanishPlugin == null)
         {
             if (this_plugin != null)
             {
-                vanishPlugin = ((VanishNoPickup) this_plugin);
+                vanishPlugin = ((VanishNoPacket) this_plugin);
             }
             else
             {
-                log.info("[" + getDescription().getName() + "] Failed to find VanishNoPickup");
+                log.info("[" + getDescription().getName() + "] Failed to find VanishNoPacket");
             }
         }
     }

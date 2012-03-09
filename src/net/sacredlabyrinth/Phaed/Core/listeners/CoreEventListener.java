@@ -6,7 +6,7 @@ import java.util.List;
 
 import net.sacredlabyrinth.Phaed.Core.Core;
 import org.bukkit.Material;
-import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,10 +33,10 @@ public class CoreEventListener implements Listener
     @EventHandler
     public void onCreatureSpawn(CreatureSpawnEvent event)
     {
-        //Cancel the event if it's a pig spawner
-        if((event.getSpawnReason() == SpawnReason.SPAWNER) && (event.getCreatureType() == CreatureType.PIG)){
-            event.setCancelled(true);
-        }
+        //Cancel the event if it's NOT a blaze
+         if((event.getSpawnReason() == SpawnReason.SPAWNER) && (event.getEntityType() != EntityType.BLAZE)){
+             event.setCancelled(true);
+         }
     }
 
     @EventHandler
