@@ -782,7 +782,7 @@ public class CommandManager implements CommandExecutor
                     }
 
                     try{
-                        if (plugin.vanishPlugin != null && plugin.vanishPlugin.isVanished(pl.getName()) && isAdmin)
+                        if (plugin.vanishPlugin != null && plugin.vanishPlugin.getManager().isVanished(pl.getName()) && isAdmin)
                         {
                             mName = ChatColor.WHITE + "(vanish)" + mName;
                         }
