@@ -39,16 +39,19 @@ public class Core extends JavaPlugin
     @Override
     public void onEnable()
     {
+        log = Logger.getLogger("Minecraft");
+        setupVanish();
+        setupPermissionsBukkit();
+        setupMChatSuite();
+
         eventListener = new CoreEventListener(this);
         settings = new SettingsManager(this);
         plm = new PlugManager(this);
         im = new ItemManager();
         cm = new CommandManager(this);
-        log = Logger.getLogger("Minecraft");
 
-        setupVanish();
-        setupPermissionsBukkit();
-        setupMChatSuite();
+
+
 
         getCommand("setrank").setExecutor(cm);
         getCommand("setvip").setExecutor(cm);

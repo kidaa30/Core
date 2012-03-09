@@ -28,7 +28,6 @@ public class CommandManager implements CommandExecutor
     private final Core plugin;
     private final HashMap<String, String> conversations = new HashMap<String, String>();
     private SettingsManager settings;
-    private CommandManager cm;
     private PlugManager plm;
     private ItemManager im;
     private PermissionsPlugin perms;
@@ -38,7 +37,6 @@ public class CommandManager implements CommandExecutor
         this.plugin = plugin;
         settings = plugin.getSettings();
         perms = plugin.getPerms();
-        cm = plugin.getCm();
         im = plugin.getIm();
         plm = plugin.getPlm();
     }
@@ -196,7 +194,7 @@ public class CommandManager implements CommandExecutor
 
                     if (player.hasPermission("core.sun"))
                     {
-                        cm.sun(player);
+                        plugin.getCm().sun(player);
                         Core.log.info("[core] " + player.getName() + " set world " + player.getWorld().getName() + " to sunny");
                         return true;
                     }
@@ -214,7 +212,7 @@ public class CommandManager implements CommandExecutor
 
                     if (player.hasPermission("core.storm"))
                     {
-                        cm.storm(player);
+                        plugin.getCm().storm(player);
                         Core.log.info("[core] " + player.getName() + " set world " + player.getWorld().getName() + " to stormy");
                         return true;
                     }
@@ -232,7 +230,7 @@ public class CommandManager implements CommandExecutor
 
                     if (player.hasPermission("core.day"))
                     {
-                        cm.day(player);
+                        plugin.getCm().day(player);
                         Core.log.info("[core] " + player.getName() + " changed time to day");
                         return true;
                     }
@@ -250,7 +248,7 @@ public class CommandManager implements CommandExecutor
 
                     if (player.hasPermission("core.night"))
                     {
-                        cm.night(player);
+                        plugin.getCm().night(player);
                         Core.log.info("[core] " + player.getName() + " changed time to night");
                         return true;
                     }
@@ -377,7 +375,7 @@ public class CommandManager implements CommandExecutor
 
                     if (player.hasPermission("core.who"))
                     {
-                        cm.who(player, player.getWorld().getName());
+                        who(player, player.getWorld().getName());
                     }
 
                     return true;
@@ -386,11 +384,11 @@ public class CommandManager implements CommandExecutor
                 if (args.length > 0)
                 {
                     String world = args[0];
-                    cm.who(sender, world);
+                    plugin.getCm().who(sender, world);
                 }
                 else
                 {
-                    cm.who(sender, plugin.getServer().getWorlds().get(0).getName());
+                    plugin.getCm().who(sender, plugin.getServer().getWorlds().get(0).getName());
                 }
 
                 return true;
@@ -477,7 +475,7 @@ public class CommandManager implements CommandExecutor
 
                             msg = msg.trim();
 
-                            if (!cm.msg(player, to, msg))
+                            if (!plugin.getCm().msg(player, to, msg))
                             {
                                 player.sendMessage(ChatColor.RED + "There are no players matching that name");
                             }
@@ -510,7 +508,7 @@ public class CommandManager implements CommandExecutor
 
                             msg = msg.trim();
 
-                            if (!cm.m(player, msg))
+                            if (!plugin.getCm().m(player, msg))
                             {
                                 player.sendMessage(ChatColor.RED + "You are not in a conversation");
                             }
@@ -553,7 +551,7 @@ public class CommandManager implements CommandExecutor
                         return false;
                     }
                 }
-                cm.setrank(sender, args);
+                plugin.getCm().setrank(sender, args);
                 return true;
             }
             else if (command.getName().equals("plugin"))
@@ -635,7 +633,7 @@ public class CommandManager implements CommandExecutor
         }
         catch (Exception ex)
         {
-            PreciousStones.log(Level.SEVERE, "Command failure: {0}", ex.getMessage());
+            Core.log.severe("Command failure: " + ex.getMessage());
         }
 
         return false;
@@ -705,7 +703,7 @@ public class CommandManager implements CommandExecutor
         {
             Player player = (Player) sender;
 
-            if (player.hasPermission("core.admin"))
+            if (player.hasPermission("vanish.see"))
             {
                 isAdmin = true;
             }
@@ -782,19 +780,20 @@ public class CommandManager implements CommandExecutor
                     }
 
                     try{
-                        if (plugin.vanishPlugin != null && plugin.vanishPlugin.getManager().isVanished(pl.getName()) && isAdmin)
+                        if (plugin.vanishPlugin != null && plugin.vanishPlugin.getManager().isVanished(pl.getName()))
                         {
-                            mName = ChatColor.WHITE + "(vanish)" + mName;
-                        }
-                        else
-                        {
-                            playerCount++;
+                            //The player is vanished and I can't tell.  Don't add count or name to list
+                            if(!isAdmin){
+                                continue;
+                            }
+                            mName = ChatColor.WHITE + "(vanished)" + mName;
                         }
                     }
                     catch(Exception ex){
 
                     }
-
+                    //We made it to the end so we're adding them and their name and count to list
+                    playerCount++;
                     playerList += ChatColor.DARK_GRAY + ", " + mName;
                 }
             }
