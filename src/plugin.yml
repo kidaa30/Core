@@ -1,6 +1,6 @@
 name: Core
 main: net.sacredlabyrinth.Phaed.Core.Core
-version: 1.5.6
+version: 1.5.7
 softdepend: [PermissionsBukkit, VanishNoPacket, mChat, mChatSuite]
 commands:
   setrank:

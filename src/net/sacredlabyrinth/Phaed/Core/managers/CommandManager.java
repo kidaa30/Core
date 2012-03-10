@@ -607,6 +607,13 @@ public class CommandManager implements CommandExecutor
             }
             else if (command.getName().equals("coords"))
             {
+                Player otherPlayer = null;
+                if(args.length > 0){
+                    List<Player> ps = plugin.getServer().matchPlayer(args[0]);
+                    if(!ps.isEmpty()){
+                        otherPlayer = ps.get(0);
+                    }
+                }
                 if (sender instanceof Player)
                 {
                     Player player = (Player) sender;
@@ -615,17 +622,28 @@ public class CommandManager implements CommandExecutor
                     {
                         return false;
                     }
-                }
 
-                if (sender instanceof Player)
-                {
-                    Player plr = (Player) sender;
-                    Location plrloc = plr.getLocation();
-                    plr.sendMessage(ChatColor.AQUA + "You are at X: " + plrloc.getBlockX() + " Y: " + plrloc.getBlockY() + " Z: " + plrloc.getBlockZ());
+                    if(otherPlayer == null){
+                        Player plr = (Player) sender;
+                        Location plrloc = plr.getLocation();
+                        plr.sendMessage(ChatColor.AQUA + "You are at X: " + plrloc.getBlockX() + " Y: " + plrloc.getBlockY() + " Z: " + plrloc.getBlockZ());
+
+                    }
+                    else{
+                        Player plr = (Player) sender;
+                        Location plrloc = otherPlayer.getLocation();
+                        plr.sendMessage(ChatColor.GOLD + otherPlayer.getName() + ChatColor.AQUA +" is at X: " + plrloc.getBlockX() + " Y: " + plrloc.getBlockY() + " Z: " + plrloc.getBlockZ());
+                    }
                 }
                 else
                 {
-                    sender.sendMessage("Command requires a player");
+                    if(otherPlayer == null){
+                        sender.sendMessage("Command requires a player");
+                    }
+                    else{
+                        Location plrloc = otherPlayer.getLocation();
+                        sender.sendMessage(ChatColor.GOLD + otherPlayer.getName() + ChatColor.AQUA + " is at X: " + plrloc.getBlockX() + " Y: " + plrloc.getBlockY() + " Z: " + plrloc.getBlockZ());
+                    }
                 }
                 return true;
             }
