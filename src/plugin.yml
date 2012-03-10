@@ -44,8 +44,12 @@ commands:
   plugin:
     description: show plugin commands
   coords:
-    description: give user coords
+    description: Get coords with /coords (for self) or /coords PLAYER (for others)
 permissions:
+  core.coords:
+    description: get your own coords
+  core.coords.other:
+    description: get anothers coords
   core.lockdown:
     description: lockdown server
   core.lockup:

@@ -622,6 +622,10 @@ public class CommandManager implements CommandExecutor
                     {
                         return false;
                     }
+                    //Clear the coords if you're not the toher player
+                    if (!player.hasPermission("core.coords.other")){
+                        otherPlayer = null;
+                    }
 
                     if(otherPlayer == null){
                         Player plr = (Player) sender;
