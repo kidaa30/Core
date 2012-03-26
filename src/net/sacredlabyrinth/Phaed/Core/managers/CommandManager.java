@@ -7,7 +7,6 @@ import net.sacredlabyrinth.Phaed.Core.ChatBlock;
 import net.sacredlabyrinth.Phaed.Core.Core;
 import net.sacredlabyrinth.Phaed.Core.Helper;
 import net.sacredlabyrinth.Phaed.Core.TargetBlock;
-import net.sacredlabyrinth.Phaed.PreciousStones.PreciousStones;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.logging.Level;
 
 public class CommandManager implements CommandExecutor
 {
@@ -608,9 +606,11 @@ public class CommandManager implements CommandExecutor
             else if (command.getName().equals("coords"))
             {
                 Player otherPlayer = null;
-                if(args.length > 0){
+                if (args.length > 0)
+                {
                     List<Player> ps = plugin.getServer().matchPlayer(args[0]);
-                    if(!ps.isEmpty()){
+                    if (!ps.isEmpty())
+                    {
                         otherPlayer = ps.get(0);
                     }
                 }
@@ -623,28 +623,33 @@ public class CommandManager implements CommandExecutor
                         return false;
                     }
                     //Clear the coords if you're not the toher player
-                    if (!player.hasPermission("core.coords.other")){
+                    if (!player.hasPermission("core.coords.other"))
+                    {
                         otherPlayer = null;
                     }
 
-                    if(otherPlayer == null){
+                    if (otherPlayer == null)
+                    {
                         Player plr = (Player) sender;
                         Location plrloc = plr.getLocation();
                         plr.sendMessage(ChatColor.AQUA + "You are at X: " + plrloc.getBlockX() + " Y: " + plrloc.getBlockY() + " Z: " + plrloc.getBlockZ());
 
                     }
-                    else{
+                    else
+                    {
                         Player plr = (Player) sender;
                         Location plrloc = otherPlayer.getLocation();
-                        plr.sendMessage(ChatColor.GOLD + otherPlayer.getName() + ChatColor.AQUA +" is at X: " + plrloc.getBlockX() + " Y: " + plrloc.getBlockY() + " Z: " + plrloc.getBlockZ());
+                        plr.sendMessage(ChatColor.GOLD + otherPlayer.getName() + ChatColor.AQUA + " is at X: " + plrloc.getBlockX() + " Y: " + plrloc.getBlockY() + " Z: " + plrloc.getBlockZ());
                     }
                 }
                 else
                 {
-                    if(otherPlayer == null){
+                    if (otherPlayer == null)
+                    {
                         sender.sendMessage("Command requires a player");
                     }
-                    else{
+                    else
+                    {
                         Location plrloc = otherPlayer.getLocation();
                         sender.sendMessage(ChatColor.GOLD + otherPlayer.getName() + ChatColor.AQUA + " is at X: " + plrloc.getBlockX() + " Y: " + plrloc.getBlockY() + " Z: " + plrloc.getBlockZ());
                     }
@@ -730,6 +735,10 @@ public class CommandManager implements CommandExecutor
                 isAdmin = true;
             }
         }
+        else
+        {
+            isAdmin = true;
+        }
 
         HashMap<String, HashSet<Player>> groups = new HashMap<String, HashSet<Player>>();
 
@@ -777,6 +786,13 @@ public class CommandManager implements CommandExecutor
                 boolean bmChatFailed = false;
                 for (Player pl : set)
                 {
+                    if (world != null)
+                    {
+                        if(!pl.getWorld().getName().equals(world))
+                        {
+                            continue;
+                        }
+                    }
 
                     String mName = "";
 
@@ -801,17 +817,20 @@ public class CommandManager implements CommandExecutor
                         mName = pl.getName();
                     }
 
-                    try{
+                    try
+                    {
                         if (plugin.vanishPlugin != null && plugin.vanishPlugin.getManager().isVanished(pl.getName()))
                         {
                             //The player is vanished and I can't tell.  Don't add count or name to list
-                            if(!isAdmin){
+                            if (!isAdmin)
+                            {
                                 continue;
                             }
                             mName = ChatColor.WHITE + "(vanished)" + mName;
                         }
                     }
-                    catch(Exception ex){
+                    catch (Exception ex)
+                    {
 
                     }
                     //We made it to the end so we're adding them and their name and count to list
@@ -848,7 +867,7 @@ public class CommandManager implements CommandExecutor
             ChatBlock.sendMessage(toplayer, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
 
 
-            plugin.log.info(ChatColor.LIGHT_PURPLE + "[msg] (" + ChatColor.BLUE + player.getDisplayName() + ChatColor.LIGHT_PURPLE + ">" + toplayer.getDisplayName() + ") " + ChatColor.WHITE + msg);
+            plugin.getServer().getConsoleSender().sendMessage(ChatColor.LIGHT_PURPLE + "[msg] (" + ChatColor.BLUE + player.getDisplayName() + ChatColor.LIGHT_PURPLE + ">" + toplayer.getDisplayName() + ") " + ChatColor.WHITE + msg);
             return true;
         }
 
@@ -882,7 +901,7 @@ public class CommandManager implements CommandExecutor
         ChatBlock.sendMessage(toplayer, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.LIGHT_PURPLE + "A conversation was started with you. Reply with /m.");
         ChatBlock.sendMessage(toplayer, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getDisplayName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getDisplayName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
 
-        plugin.log.info(ChatColor.LIGHT_PURPLE + "[msg] (" + ChatColor.BLUE + player.getDisplayName() + ChatColor.LIGHT_PURPLE + ">" + toplayer.getDisplayName() + ") " + ChatColor.WHITE + msg);
+        plugin.getServer().getConsoleSender().sendMessage(ChatColor.LIGHT_PURPLE + "[msg] (" + ChatColor.BLUE + player.getDisplayName() + ChatColor.LIGHT_PURPLE + ">" + toplayer.getDisplayName() + ") " + ChatColor.WHITE + msg);
 
         conversations.put(player.getName(), toplayer.getName());
         conversations.put(toplayer.getName(), player.getName());
@@ -908,7 +927,7 @@ public class CommandManager implements CommandExecutor
         ChatBlock.sendMessage(toplayer, ChatColor.LIGHT_PURPLE + "[msg] " + ChatColor.DARK_GRAY + "(" + ChatColor.BLUE + player.getName() + ChatColor.DARK_GRAY + ">" + ChatColor.LIGHT_PURPLE + toplayer.getName() + ChatColor.DARK_GRAY + ") " + ChatColor.BLUE + msg);
 
 
-        plugin.log.info(ChatColor.LIGHT_PURPLE + "[msg] (" + ChatColor.BLUE + player.getDisplayName() + ChatColor.LIGHT_PURPLE + ">" + toplayer.getName() + ") " + ChatColor.WHITE + msg);
+        plugin.getServer().getConsoleSender().sendMessage(ChatColor.LIGHT_PURPLE + "[msg] (" + ChatColor.BLUE + player.getDisplayName() + ChatColor.LIGHT_PURPLE + ">" + toplayer.getName() + ") " + ChatColor.WHITE + msg);
 
         conversations.put(player.getName(), toplayer.getName());
         return true;
@@ -916,7 +935,7 @@ public class CommandManager implements CommandExecutor
 
     public void setrank(CommandSender sender, String[] args)
     {
-        plugin.log.info(ChatColor.LIGHT_PURPLE + "[setrank]: " + Helper.toMessage(args));
+        plugin.getServer().getConsoleSender().sendMessage(ChatColor.LIGHT_PURPLE + "[setrank]: " + Helper.toMessage(args));
 
         if (args.length > 0)
         {

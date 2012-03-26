@@ -1,79 +1,83 @@
 name: Core
 main: net.sacredlabyrinth.Phaed.Core.Core
-version: 1.5.3
+version: 1.5.7
 softdepend: [PermissionsBukkit, VanishNoPacket, mChat, mChatSuite]
 commands:
   setrank:
-    description: command
+    description: setrank
   setvip:
-    description: command
+    description: setVIP
   lockdown:
-    description: command
+    description: lockdown server
   data:
-    description: command
+    description: get data
   sun:
-    description: command
+    description: set sun
   storm:
-    description: command
+    description: set storm
   day:
-    description: command
+    description: set day
   night:
-    description: command
+    description: set night
   i:
-    description: command
+    description: give item
   item:
-    description: command
+    description: give item
   ims:
-    description: command
+    description: give items
   items:
-    description: command
+    description: give items
   give:
-    description: command
+    description: give items
   who:
-    description: command
+    description: use /who
   maxxp:
-    description: command
+    description: give XP
   list:
-    description: command
+    description: use /who
   clear:
-    description: command
+    description: clear inventory
   msg:
-    description: command
+    description: use /msg
   m:
-    description: command
+    description: use /m
   plugin:
-    description: command
+    description: show plugin commands
   coords:
-    description: command
+    description: Get coords with /coords (for self) or /coords PLAYER (for others)
 permissions:
+  core.coords:
+    description: get your own coords
+  core.coords.other:
+    description: get anothers coords
   core.lockdown:
-    description: description
+    description: lockdown server
   core.lockup:
-    description: description
+    description: lockup server
   core.data:
-    description: description
+    description: show data
   core.day:
-    description: description
+    description: set day
   core.night:
-    description: description
+    description: set night
   core.item:
-    description: description
+    description: give item
   core.items:
-    description: description
+    description: give items
   core.give:
-    description: description
+    description: give items
   core.who:
-    description: description
+    description: use /who
   core.msg:
-    description: description
+    description: send a /msg
   core.clear:
-    description: description
+    description: clear inventory
   core.plugin:
-    description: description
+    description: use plugin commands
   core.setrank:
-    description: description
+    description: setrank!
   core.setvip:
-    description: description
+    description: setvip
   core.*:
     default: false
     description: description
