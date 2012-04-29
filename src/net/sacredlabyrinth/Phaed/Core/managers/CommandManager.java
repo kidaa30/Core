@@ -2,7 +2,7 @@ package net.sacredlabyrinth.Phaed.Core.managers;
 
 import com.platymuus.bukkit.permissions.Group;
 import com.platymuus.bukkit.permissions.PermissionsPlugin;
-import in.mDev.MiracleM4n.mChatSuite.api.mChatAPI;
+import in.mDev.MiracleM4n.mChatSuite.api.Parser;
 import net.sacredlabyrinth.Phaed.Core.ChatBlock;
 import net.sacredlabyrinth.Phaed.Core.Core;
 import net.sacredlabyrinth.Phaed.Core.Helper;
@@ -802,9 +802,9 @@ public class CommandManager implements CommandExecutor
                         {
                             if (plugin.mchatSuite != null)
                             {
-                                mChatAPI api = plugin.mchatSuite.getAPI();
+                                Parser parser = plugin.mchatSuite.getParser();
 
-                                mName = api.ParsePlayerName(pl.getName(), pl.getWorld().getName());
+                                mName = parser.parsePlayerName(pl.getName(), pl.getWorld().getName());
                             }
                         }
                         catch (Exception ex)
