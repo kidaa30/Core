@@ -7,6 +7,7 @@ import java.util.List;
 import net.sacredlabyrinth.Phaed.Core.Core;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -46,13 +47,21 @@ public class CoreEventListener implements Listener
         {
 
             Player player = (Player) event.getEntity();
-            ItemStack is = new ItemStack(Material.ROTTEN_FLESH, 1);
-            player.getWorld().dropItem(player.getLocation(), is);
 
 
             int n = player.getLevel();
             //total exp =7n + round(3.5(.5(n^2)-.5n)) - n/4)
             double totalLevelEXP = 7*n + Math.round((3.5F * (0.5F * (n*n) - 0.5F * n)) - n/4);
+
+            //Spawn 3 mobs per player level minimum of one
+            int iNumMobs = 1;
+            if(n > 3){
+                iNumMobs = n / 3;
+            }
+            for(int i=0;i<iNumMobs;i++){
+                player.getWorld().spawnCreature(player.getLocation(), EntityType.ZOMBIE);
+            }
+
 
             //Then let's take that XP and do 80% of it
             totalLevelEXP = 0.8F * totalLevelEXP;
