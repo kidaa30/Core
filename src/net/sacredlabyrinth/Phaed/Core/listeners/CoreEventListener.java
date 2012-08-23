@@ -35,7 +35,7 @@ public class CoreEventListener implements Listener
     public void onCreatureSpawn(CreatureSpawnEvent event)
     {
         //Cancel the event if it's NOT a blaze
-         if((event.getSpawnReason() == SpawnReason.SPAWNER) && (event.getEntityType() != EntityType.BLAZE)){
+         if((event.getSpawnReason() == SpawnReason.SPAWNER) && (event.getEntityType() == EntityType.PIG)){
              event.setCancelled(true);
          }
     }
